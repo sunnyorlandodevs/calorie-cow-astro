@@ -30,13 +30,20 @@ src/
   config.ts          site name, nav, email, APP_STORE_URL (null until launch)
   styles/global.css  design tokens mirrored from the app's palette
   assets/icon.svg    STUB app icon (placeholder cow) — swappable
-  components/        Wordmark, Nav, Footer, PhoneMockup
+  components/        Wordmark, Nav, Footer
   layouts/           BaseLayout (head/meta + Nav + Footer)
   pages/
-    index.astro      the landing page (hero / features / privacy / contact)
+    index.astro      the landing page (hero / features / how it works / FAQ)
     privacy.astro    Privacy Policy (stable URL for the App Store listing)
     terms.astro      Terms & Conditions
 ```
+
+The landing page markup was ported from the Claude Design project
+["Calorie app color system"](https://claude.ai/design/p/5c9fee3e-7dd5-446f-ad5b-0333dce14079)
+(`Landing Page.dc.html`). The hero shows an **illustrative** in-app phone mock
+(built in CSS, not a real screenshot) — swap it for a real device capture later
+if you want. The site renders in one deliberate light palette; the dark hero
+CTA and footer bands are part of the design, so there is no dark-mode flip.
 
 The palette in `src/styles/global.css` is taken straight from the app's
 `Assets.xcassets` colorsets (warm brown `action`, coral `aiAccent` for the AI
@@ -67,14 +74,9 @@ Remaining steps for Marco:
 
 | What | Where | Notes |
 |---|---|---|
-| App icon | `src/assets/icon.svg` | Placeholder cow. Keep it square; the Wordmark + favicon reference it. |
+| Brand badge | `src/components/Wordmark.astro` | The 🐄 badge is a stand-in for the real app icon; swap the badge contents for an SVG/`<img>` mark. |
 | Favicon | `public/favicon.svg` | Placeholder cow. |
-| Screenshot: Day view | `src/components/PhoneMockup.astro` (`variant="day"`) | Real screenshot of the logged-meals day view. |
-| Screenshot: AI scan | `PhoneMockup.astro` (`variant="ai"`) | Real AI meal-scan result screen. |
-| Screenshot: Apple Health | `PhoneMockup.astro` (`variant="health"`) | Real Health connection screen. |
-| App Store URL | `src/config.ts` → `APP_STORE_URL` | Currently `null` → "Coming soon" badge. |
+| Hero phone mock | `src/pages/index.astro` (`.hero-visual`) | Illustrative CSS mock, not a screenshot. Optional: replace with a real device capture. |
+| App Store URL | `src/config.ts` → `APP_STORE_URL` | Currently `null` → "Coming soon" badge (in the hero and footer). |
 | Legal dates / jurisdiction | `src/pages/{privacy,terms}.astro` | `[DATE PLACEHOLDER]`, `[JURISDICTION PLACEHOLDER]`. |
 | OG image | referenced as `/og-default.png` in `BaseLayout.astro` | Optional social-share image; not committed yet. |
-
-Each `PhoneMockup` has a `TODO(launch)` comment showing exactly how to drop a
-real screenshot in place of the stubbed screen.

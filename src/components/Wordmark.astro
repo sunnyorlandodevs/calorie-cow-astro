@@ -1,11 +1,9 @@
 ---
-// STUB wordmark for Calorie Cownter — styled text + the placeholder cow icon.
-// No real logo exists yet. TODO(launch): swap `icon.svg` for the final mark;
-// the text treatment can stay or be replaced by an SVG logo here.
-import icon from '../assets/icon.svg';
-
+// Brand lockup for Calorie Cownter: a rounded cow badge + wordmark, matching
+// the Claude Design landing page. TODO(launch): the 🐄 badge is a stand-in for
+// the real app icon — swap the badge contents for an <img>/SVG mark when ready.
 interface Props {
-  /** When true, use light text (for the dark hero / footer). */
+  /** When true, use light text (for use on the dark footer). */
   onDark?: boolean;
   href?: string | null;
 }
@@ -14,7 +12,7 @@ const Tag = href ? 'a' : 'span';
 ---
 
 <Tag class:list={['wordmark', { 'on-dark': onDark }]} href={href ?? undefined}>
-  <img src={icon.src} alt="" width="32" height="32" class="wm-icon" />
+  <span class="wm-badge" aria-hidden="true">🐄</span>
   <span class="wm-text">Calorie <span class="wm-accent">Cownter</span></span>
 </Tag>
 
@@ -31,10 +29,18 @@ const Tag = href ? 'a' : 'span';
     color: var(--ink);
   }
   .wordmark.on-dark { color: var(--on-dark); }
-  .wm-icon {
-    border-radius: 8px;
-    display: block;
+  .wm-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--action);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    line-height: 1;
   }
-  .wm-accent { color: var(--action); }
-  .on-dark .wm-accent { color: var(--action-soft); }
+  .wm-text { display: inline-flex; gap: 0; }
+  .wm-accent { color: var(--action); margin-left: -4px; }
+  .on-dark .wm-accent { color: var(--tan); }
 </style>

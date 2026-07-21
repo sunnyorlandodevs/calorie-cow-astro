@@ -6,7 +6,7 @@
    Change a token here once and the whole site follows.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   /* Surfaces (light mode) */
@@ -36,50 +36,28 @@
   --on-dark-2: #d8c9b8;
   --on-dark-muted: #a99b88;
 
+  /* Aliases matching the Claude Design landing-page tokens 1:1, so the
+     ported inline styles resolve everywhere. Same hexes, shorter names. */
+  --soft: var(--surface-soft);   /* #f1e9e0 */
+  --ink2: var(--ink-2);          /* #4a3f32 */
+  --deep: var(--action-strong);  /* #4e331d */
+  --tan: var(--action-soft);     /* #be9c7c */
+  --aisoft: var(--ai-soft);      /* #f9e7e1 */
+  --dark: var(--hero-bg);        /* #1d1b17 */
+
   /* Type */
   --font-sans: 'Nunito', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
 
   /* Scale */
-  --container: 1080px;
+  --container: 1120px;
   --gutter: 32px;
   --radius: 18px;
 }
 
-/* Dark mode — flips surfaces to the app's dark warm-brown family. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --surface: #1d1b17;
-    --bg: #121010;
-    --surface-soft: #2a241d;
-    --hero-bg: #1d1b17;
-    --ink: #f4ede4;
-    --ink-2: #d8c9b8;
-    --muted: #a99b88;
-    --rule: #322b22;
-    --action: #be9c7c;         /* app: action (dark)          */
-    --action-strong: #d6bfa9;  /* app: actionStrong (dark)    */
-    --action-soft: #7a5e42;
-    --ai: #e39b7c;             /* app: aiAccent (dark)        */
-    --ai-soft: #3a2a23;        /* app: aiSoft (dark)          */
-  }
-}
-
-[data-theme="dark"] {
-  --surface: #1d1b17;
-  --bg: #121010;
-  --surface-soft: #2a241d;
-  --hero-bg: #1d1b17;
-  --ink: #f4ede4;
-  --ink-2: #d8c9b8;
-  --muted: #a99b88;
-  --rule: #322b22;
-  --action: #be9c7c;
-  --action-strong: #d6bfa9;
-  --action-soft: #7a5e42;
-  --ai: #e39b7c;
-  --ai-soft: #3a2a23;
-}
+/* The marketing site renders in one deliberate light palette (with the dark
+   hero + footer bands baked into the design), so there is no dark-mode flip —
+   that keeps the composition matching the design 1:1 on every device. */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
