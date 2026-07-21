@@ -1,0 +1,29 @@
+<!--
+  STUB app icon for Calorie Cownter — a simple warm-brown rounded square
+  with a minimal cow face. Placeholder only.
+  TODO(launch): replace with the real exported app icon (same square aspect).
+-->
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Calorie Cownter app icon">
+  <rect width="512" height="512" rx="112" fill="#664428"/>
+  <rect width="512" height="512" rx="112" fill="url(#g)" fill-opacity="0.25"/>
+  <!-- cow face -->
+  <ellipse cx="256" cy="276" rx="150" ry="132" fill="#f4ede4"/>
+  <!-- ears -->
+  <ellipse cx="118" cy="212" rx="46" ry="62" fill="#be9c7c" transform="rotate(-24 118 212)"/>
+  <ellipse cx="394" cy="212" rx="46" ry="62" fill="#be9c7c" transform="rotate(24 394 212)"/>
+  <!-- brown patch -->
+  <path d="M150 190c30-26 78-20 96 8 12 19-6 44-34 46-40 3-92-30-62-54Z" fill="#8a5a2b"/>
+  <!-- eyes -->
+  <circle cx="206" cy="262" r="16" fill="#241d15"/>
+  <circle cx="306" cy="262" r="16" fill="#241d15"/>
+  <!-- muzzle -->
+  <ellipse cx="256" cy="340" rx="78" ry="54" fill="#da8868"/>
+  <circle cx="228" cy="342" r="11" fill="#241d15"/>
+  <circle cx="284" cy="342" r="11" fill="#241d15"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8a5a2b"/>
+      <stop offset="1" stop-color="#4e331d"/>
+    </linearGradient>
+  </defs>
+</svg>

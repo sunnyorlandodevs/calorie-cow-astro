@@ -1,0 +1,39 @@
+---
+import { NAV } from '../config';
+import Wordmark from './Wordmark.astro';
+---
+
+<nav>
+  <Wordmark href="/" />
+  <div class="nav-links">
+    {NAV.map(({ label, href }) => <a href={href}>{label}</a>)}
+  </div>
+</nav>
+
+<style>
+  nav {
+    padding: 22px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 26px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    align-items: center;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover { color: var(--action); }
+  @media (max-width: 560px) {
+    .nav-links { gap: 16px; font-size: 11px; }
+  }
+</style>

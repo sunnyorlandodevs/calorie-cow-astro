@@ -1,0 +1,320 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhoneMockup from '../components/PhoneMockup.astro';
+import { SITE, APP_STORE_URL } from '../config';
+---
+
+<BaseLayout>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="hero-kicker">🐄 Calorie Cownter · for iPhone</p>
+        <h1>
+          Count calories<br />
+          without the <span class="accent">hassle</span>.
+        </h1>
+        <p class="hero-lede">
+          Log a meal in seconds and watch your day fill up. No account to start,
+          no ads, mostly free — and your food diary lives in your own iCloud,
+          not on our servers.
+        </p>
+
+        <div class="hero-cta">
+          {
+            /*
+              TODO(launch): when the app is live, set APP_STORE_URL in
+              src/config.ts. This badge automatically becomes a real link.
+              Until then it renders as a non-clickable "Coming soon" badge
+              on purpose — there is no working App Store link yet.
+            */
+          }
+          {APP_STORE_URL ? (
+            <a class="appstore" href={APP_STORE_URL}>
+              <span class="appstore-top">Download on the</span>
+              <span class="appstore-bottom">App Store</span>
+            </a>
+          ) : (
+            <span class="appstore is-soon" aria-disabled="true">
+              <span class="appstore-top">Coming soon to the</span>
+              <span class="appstore-bottom">App Store</span>
+            </span>
+          )}
+          <p class="hero-note">Currently in pre-beta.</p>
+        </div>
+
+        <ul class="hero-points">
+          <li>No account needed to start</li>
+          <li>No ads, ever</li>
+          <li>Your data stays yours</li>
+        </ul>
+      </div>
+
+      <div class="hero-phone">
+        <PhoneMockup variant="day" caption="Your day, at a glance" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section" id="features">
+    <div class="container">
+      <p class="section-kicker">What you get</p>
+      <h2 class="section-title">Everything you need to log a meal — and nothing you don't.</h2>
+
+      <div class="features">
+        <article class="feature">
+          <div class="feature-icon">✍️</div>
+          <h3>Log food to any meal, any day</h3>
+          <p>
+            Add breakfast, lunch, dinner, or a snack — for today or any date.
+            Type it in yourself and it's saved. No sign-up, no setup wizard.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">🔎</div>
+          <h3>Scan a barcode</h3>
+          <p>
+            Point your camera at a package and Calorie Cownter looks it up in the
+            Open Food Facts database. Still no account required.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">❤️</div>
+          <h3>Connect Apple Health</h3>
+          <p>
+            Turn on Apple Health and your activity flows in. No account needed,
+            and your Health data never leaves your phone — Calorie Cownter only
+            keeps a local "connected" switch.
+          </p>
+        </article>
+
+        <article class="feature feature-ai">
+          <div class="feature-icon">✨</div>
+          <h3>Snap a photo, let AI do the math</h3>
+          <p>
+            Not sure what's in that plate? Take a photo or just describe it, and
+            AI estimates the calories and macros for you. <strong>Three free
+            scans a day</strong> with Sign in with Apple.
+          </p>
+          <p class="feature-soon">
+            An optional subscription for unlimited AI scans is coming soon.
+          </p>
+        </article>
+      </div>
+
+      <!-- Feature screenshots -->
+      <div class="feature-shots">
+        <PhoneMockup variant="ai" caption="AI reads your plate — 3 free scans a day" />
+        <PhoneMockup variant="health" caption="Apple Health stays on your phone" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRIVACY ============ -->
+  <section class="section privacy-strip">
+    <div class="container">
+      <p class="section-kicker">Privacy first</p>
+      <h2 class="section-title">Your food diary is yours. Full stop.</h2>
+      <div class="privacy-grid">
+        <div class="privacy-card">
+          <h3>Lives in your iCloud</h3>
+          <p>Your whole diary syncs privately across your own devices through iCloud. We can't see it.</p>
+        </div>
+        <div class="privacy-card">
+          <h3>Health stays on device</h3>
+          <p>Apple Health values never get sent anywhere. Only a local "connected" flag exists.</p>
+        </div>
+        <div class="privacy-card">
+          <h3>AI photos aren't stored</h3>
+          <p>A photo you scan is analyzed to estimate nutrition, then discarded. We don't keep it.</p>
+        </div>
+        <div class="privacy-card">
+          <h3>No ads, no tracking</h3>
+          <p>No ad networks and no third-party analytics — not in the app, not on this site.</p>
+        </div>
+      </div>
+      <p class="privacy-more">
+        Want the specifics? Read the <a href="/privacy">Privacy Policy</a> and
+        <a href="/terms">Terms &amp; Conditions</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section contact" id="contact">
+    <div class="container contact-inner">
+      <h2 class="section-title">Questions? Say hello.</h2>
+      <p class="lede">
+        Calorie Cownter is a small, independent app. If something's broken or
+        you have an idea, I'd love to hear it.
+      </p>
+      <a class="btn btn-primary" href={`mailto:${SITE.email}`}>Email {SITE.email}</a>
+      <p class="contact-links">
+        <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms &amp; Conditions</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* HERO */
+  .hero {
+    background: var(--hero-bg);
+    color: var(--on-dark);
+    padding: 40px 0 80px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--action-soft);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+  .hero h1 .accent { color: var(--action-soft); }
+  .hero-lede {
+    margin-top: 22px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--on-dark-2);
+    max-width: 46ch;
+  }
+  .hero-cta {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .appstore {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    color: #1d1b17;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 12px;
+    line-height: 1.1;
+  }
+  .appstore-top { font-size: 11px; letter-spacing: 0.02em; }
+  .appstore-bottom { font-size: 20px; font-weight: 800; }
+  .appstore.is-soon {
+    background: transparent;
+    color: var(--on-dark);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    cursor: default;
+  }
+  .hero-note { font-size: 13px; color: var(--on-dark-muted); font-family: var(--font-mono); }
+  .hero-points {
+    margin-top: 30px;
+    list-style: none;
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--on-dark-2);
+  }
+  .hero-points li { display: flex; align-items: center; gap: 8px; }
+  .hero-points li::before { content: '✓'; color: var(--action-soft); font-weight: 800; }
+  .hero-phone { display: flex; justify-content: center; }
+
+  /* FEATURES */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .feature-icon {
+    font-size: 26px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--surface-soft);
+    margin-bottom: 16px;
+  }
+  .feature h3 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .feature p { color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+  .feature-ai { border-color: var(--ai); background: linear-gradient(180deg, var(--ai-soft), var(--surface)); }
+  .feature-ai .feature-icon { background: var(--ai-soft); }
+  .feature-soon {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ai);
+  }
+
+  .feature-shots {
+    margin-top: 56px;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  /* PRIVACY */
+  .privacy-strip { background: var(--surface-soft); border-top: none; }
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 44px;
+  }
+  .privacy-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .privacy-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; color: var(--ink); }
+  .privacy-card p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+  .privacy-more { margin-top: 28px; color: var(--ink-2); }
+  .privacy-more a { color: var(--action); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--action); }
+
+  /* CONTACT */
+  .contact-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
+  .contact .lede { margin-left: auto; margin-right: auto; margin-bottom: 28px; }
+  .contact-links { margin-top: 22px; font-size: 14px; color: var(--muted); }
+  .contact-links a { color: var(--action); text-decoration: none; }
+
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .features { grid-template-columns: 1fr; }
+    .privacy-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .privacy-grid { grid-template-columns: 1fr; }
+  }
+</style>

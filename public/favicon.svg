@@ -1,0 +1,8 @@
+<!-- STUB favicon — mini version of the placeholder cow icon. TODO(launch): replace with real icon. -->
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="14" fill="#664428"/>
+  <ellipse cx="32" cy="35" rx="19" ry="17" fill="#f4ede4"/>
+  <circle cx="26" cy="33" r="2.4" fill="#241d15"/>
+  <circle cx="38" cy="33" r="2.4" fill="#241d15"/>
+  <ellipse cx="32" cy="43" rx="10" ry="7" fill="#da8868"/>
+</svg>

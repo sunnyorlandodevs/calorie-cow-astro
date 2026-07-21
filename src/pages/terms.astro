@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout title="Terms & Conditions" description="The terms for using Calorie Cownter.">
+  <section class="section">
+    <div class="container prose">
+      <h1 class="section-title" style="margin-bottom: 8px;">Terms &amp; Conditions</h1>
+
+      <!-- TODO(launch): set the real date once legal review is complete. -->
+      <p class="draft-note">
+        Draft — pending legal review. Last updated <strong>[DATE PLACEHOLDER]</strong>.
+      </p>
+
+      <p>
+        These terms cover your use of the Calorie Cownter iPhone app and this
+        website. By using the app, you agree to them. If you don't agree, please
+        don't use the app.
+      </p>
+
+      <h2>Not medical or nutrition advice</h2>
+      <p>
+        Calorie Cownter is a tracking tool, not a medical or dietary service. The
+        calorie and nutrition figures it shows — <strong>including AI estimates</strong> —
+        are approximate and may be wrong. Nothing in the app is medical, nutritional,
+        or health advice. Talk to a qualified professional before making decisions
+        about your diet or health.
+      </p>
+
+      <h2>The app is provided "as is"</h2>
+      <p>
+        Calorie Cownter is provided on an "as is" and "as available" basis, without
+        warranties of any kind, whether express or implied. We don't promise the app
+        will be uninterrupted, error-free, or that any estimate it produces is accurate.
+      </p>
+
+      <h2>Acceptable use</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Use the app for anything unlawful.</li>
+        <li>Attempt to break, overload, reverse-engineer, or abuse the app or its backend.</li>
+        <li>Submit content you don't have the right to submit through the AI features.</li>
+      </ul>
+
+      <h2>Accounts</h2>
+      <p>
+        Some features require signing in with Sign in with Apple. You're responsible
+        for the activity under your account. See the
+        <a href="/privacy">Privacy Policy</a> for what we store when you sign in.
+      </p>
+
+      <h2>Subscriptions and auto-renewal</h2>
+      <p>
+        Any paid subscription is sold and managed through <strong>Apple</strong>.
+        Payment is charged to your Apple account, subscriptions renew automatically
+        unless you turn off auto-renew at least 24 hours before the end of the current
+        period, and you manage or cancel them in your Apple account settings. We don't
+        process payments and never see your card details.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p>
+        To the fullest extent allowed by law, Calorie Cownter and its creator are not
+        liable for any indirect, incidental, or consequential damages, or for any
+        decisions you make based on the app's data or estimates. Your use of the app is
+        at your own risk.
+      </p>
+
+      <h2>Governing law</h2>
+      <p>
+        These terms are governed by the laws of <strong>[JURISDICTION PLACEHOLDER —
+        Marco to set]</strong>, without regard to conflict-of-law rules.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        We may update these terms. When we do, we'll update this page and the "last
+        updated" date above. Continuing to use the app after a change means you accept
+        the updated terms.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

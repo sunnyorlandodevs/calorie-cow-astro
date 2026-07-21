@@ -1,0 +1,97 @@
+---
+import { SITE } from '../config';
+import Wordmark from './Wordmark.astro';
+const year = new Date().getFullYear();
+---
+
+<footer id="contact">
+  <div class="footer-grid">
+    <div>
+      <Wordmark onDark href={null} />
+      <p class="footer-tag">
+        A cozy, private way to keep track of what you eat.
+        Questions or feedback? <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+    </div>
+    <div class="footer-col">
+      <h5>App</h5>
+      <a href="/#features">Features</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms &amp; Conditions</a>
+    </div>
+  </div>
+  <div class="footer-base">
+    <div>Made with care in Orlando 🐄</div>
+    <div>© {year} Calorie Cownter</div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--hero-bg);
+    color: var(--on-dark);
+    padding: 64px 0 32px;
+    margin-top: 40px;
+  }
+  footer :global(.container) { }
+  .footer-grid {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-tag {
+    margin-top: 16px;
+    color: var(--on-dark-2);
+    font-size: 15px;
+    max-width: 42ch;
+    line-height: 1.6;
+  }
+  .footer-tag a {
+    color: var(--action-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--action-soft);
+  }
+  .footer-col h5 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .footer-col a {
+    display: block;
+    color: var(--on-dark-2);
+    text-decoration: none;
+    font-size: 15px;
+    margin-bottom: 10px;
+    transition: color 0.2s ease;
+  }
+  .footer-col a:hover { color: var(--on-dark); }
+  .footer-base {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 24px var(--gutter) 0;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--on-dark-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  @media (max-width: 860px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .footer-base { flex-direction: column; gap: 12px; }
+  }
+</style>

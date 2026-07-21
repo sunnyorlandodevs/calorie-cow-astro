@@ -1,0 +1,196 @@
+---
+// PLACEHOLDER phone mockup. No real app screenshots exist yet.
+//
+// TODO(launch): replace each placeholder with a real screenshot. Drop the
+// image into src/assets/screens/ and render it inside `.screen` instead of the
+// stub content — e.g.
+//   import dayView from '../assets/screens/day-view.png';
+//   <img src={dayView.src} alt="..." />
+// Keep the same 9:19.5 aspect so the frame still fits.
+//
+// `variant` picks which stubbed screen to fake: 'day' | 'ai' | 'health'.
+interface Props {
+  variant: 'day' | 'ai' | 'health';
+  caption: string;
+}
+const { variant, caption } = Astro.props;
+---
+
+<figure class="mock">
+  <div class:list={['phone', variant]}>
+    <div class="notch"></div>
+    <div class="screen">
+      {variant === 'day' && (
+        <div class="stub stub-day">
+          <span class="stub-tag">Today</span>
+          <div class="ring"><span>1,480</span><small>kcal left</small></div>
+          <div class="bars">
+            <span style="--w:62%">Protein</span>
+            <span style="--w:44%">Carbs</span>
+            <span style="--w:71%">Fat</span>
+          </div>
+          <ul class="rows">
+            <li><b>Breakfast</b><span>Oatmeal &amp; berries · 320</span></li>
+            <li><b>Lunch</b><span>Chicken bowl · 540</span></li>
+            <li><b>Dinner</b><span>Tap + to add</span></li>
+          </ul>
+        </div>
+      )}
+      {variant === 'ai' && (
+        <div class="stub stub-ai">
+          <span class="stub-tag ai">✨ AI scan</span>
+          <div class="photo">📷</div>
+          <p class="ai-caption">“A plate of tacos”</p>
+          <ul class="rows">
+            <li><b>Estimated</b><span>~620 kcal</span></li>
+            <li><b>Protein</b><span>28 g</span></li>
+            <li><b>Carbs</b><span>52 g</span></li>
+            <li><b>Fat</b><span>34 g</span></li>
+          </ul>
+        </div>
+      )}
+      {variant === 'health' && (
+        <div class="stub stub-health">
+          <span class="stub-tag">Apple Health</span>
+          <div class="heart">❤️</div>
+          <p class="ai-caption">Connected</p>
+          <ul class="rows">
+            <li><b>Active energy</b><span>Stays on device</span></li>
+            <li><b>Sync</b><span>On your iPhone only</span></li>
+            <li><b>Nothing sent</b><span>to any server</span></li>
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .mock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .phone {
+    position: relative;
+    width: 244px;
+    aspect-ratio: 9 / 19.5;
+    background: #0f0d0b;
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.06) inset,
+      0 30px 60px rgba(30, 20, 10, 0.35);
+  }
+  .notch {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 22px;
+    background: #0f0d0b;
+    border-radius: 0 0 14px 14px;
+    z-index: 2;
+  }
+  .screen {
+    height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    background: var(--surface);
+    display: flex;
+  }
+  .stub {
+    flex: 1;
+    padding: 40px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-family: var(--font-sans);
+  }
+  .stub-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--action);
+    font-weight: 600;
+  }
+  .stub-tag.ai { color: var(--ai); }
+
+  .ring {
+    align-self: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 10px solid var(--action-soft);
+    border-top-color: var(--action);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+  }
+  .ring span { font-size: 26px; font-weight: 800; }
+  .ring small { color: var(--muted); font-size: 11px; }
+
+  .bars { display: flex; flex-direction: column; gap: 8px; }
+  .bars span {
+    position: relative;
+    font-size: 11px;
+    color: var(--ink-2);
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: var(--surface-soft);
+    overflow: hidden;
+  }
+  .bars span::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: var(--w);
+    background: var(--action);
+    opacity: 0.18;
+  }
+
+  .rows { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .rows li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+    color: var(--ink-2);
+  }
+  .rows b { color: var(--ink); font-weight: 700; }
+
+  .photo, .heart {
+    align-self: center;
+    width: 130px;
+    height: 100px;
+    border-radius: 14px;
+    background: var(--ai-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+  }
+  .heart { background: var(--surface-soft); }
+  .ai-caption {
+    align-self: center;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 14px;
+  }
+
+  figcaption {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-align: center;
+    max-width: 24ch;
+  }
+</style>

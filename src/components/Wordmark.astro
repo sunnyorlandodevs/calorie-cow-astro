@@ -1,0 +1,40 @@
+---
+// STUB wordmark for Calorie Cownter — styled text + the placeholder cow icon.
+// No real logo exists yet. TODO(launch): swap `icon.svg` for the final mark;
+// the text treatment can stay or be replaced by an SVG logo here.
+import icon from '../assets/icon.svg';
+
+interface Props {
+  /** When true, use light text (for the dark hero / footer). */
+  onDark?: boolean;
+  href?: string | null;
+}
+const { onDark = false, href = '/' } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag class:list={['wordmark', { 'on-dark': onDark }]} href={href ?? undefined}>
+  <img src={icon.src} alt="" width="32" height="32" class="wm-icon" />
+  <span class="wm-text">Calorie <span class="wm-accent">Cownter</span></span>
+</Tag>
+
+<style>
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .wordmark.on-dark { color: var(--on-dark); }
+  .wm-icon {
+    border-radius: 8px;
+    display: block;
+  }
+  .wm-accent { color: var(--action); }
+  .on-dark .wm-accent { color: var(--action-soft); }
+</style>

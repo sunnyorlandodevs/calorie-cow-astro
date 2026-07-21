@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout title="Privacy Policy" description="How Calorie Cownter handles your data.">
+  <section class="section">
+    <div class="container prose">
+      <h1 class="section-title" style="margin-bottom: 8px;">Privacy Policy</h1>
+
+      <!-- TODO(launch): set the real date once legal review is complete. -->
+      <p class="draft-note">
+        Draft — pending legal review. Last updated <strong>[DATE PLACEHOLDER]</strong>.
+      </p>
+
+      <p>
+        Calorie Cownter is an iPhone app for tracking the food you eat. This
+        policy explains what we collect, what we don't, and where your data
+        actually lives. We've tried to keep it plain — if anything is unclear,
+        email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <h2>The short version</h2>
+      <ul>
+        <li>You can use most of the app with <strong>no account at all</strong>.</li>
+        <li>Your food diary lives in <strong>your own iCloud</strong>, not on our servers.</li>
+        <li>Your <strong>Apple Health data never leaves your phone</strong>.</li>
+        <li>AI meal photos are analyzed and then <strong>not stored</strong>.</li>
+        <li>There are <strong>no ads</strong> and <strong>no third-party analytics or tracking</strong>.</li>
+      </ul>
+
+      <h2>Accounts (optional)</h2>
+      <p>
+        You don't need an account to log food, scan barcodes, or connect Apple
+        Health. An account is only required to use the AI meal-scanning feature.
+      </p>
+      <p>
+        If you choose to use AI, you sign in with <strong>Sign in with Apple</strong> —
+        there is no password. When you do, our backend stores the stable Apple
+        user identifier Apple gives us (so we can recognize you and enforce the
+        free daily limit). If Apple provides them on your first sign-in, we also
+        store your email address (which may be an Apple private-relay address you
+        can revoke at any time) and your name. That's it.
+      </p>
+
+      <h2>AI meal scanning</h2>
+      <p>
+        When you scan a meal by photo or by typing a description, that photo or
+        text is sent to Calorie Cownter's backend server, which forwards it to a
+        third-party AI provider (<strong>Anthropic / Claude</strong>) to estimate
+        the calories and macros.
+      </p>
+      <p>
+        The image is processed transiently to generate an estimate. It is
+        <strong>not stored</strong> on our server or kept by us after the
+        analysis is returned to your phone.
+      </p>
+
+      <h2>Barcode scanning</h2>
+      <p>
+        When you scan a barcode, the barcode number is sent to our backend and
+        looked up in the <strong>Open Food Facts</strong> public database. No
+        account is needed and no AI is involved.
+      </p>
+
+      <h2>Subscriptions</h2>
+      <p>
+        Any subscription (for example, unlimited AI scans, coming soon) is handled
+        entirely by <strong>Apple / StoreKit</strong> through RevenueCat. Our
+        backend receives subscription status events keyed to your Apple identifier
+        so we know whether your subscription is active. <strong>No payment or card
+        details ever reach us.</strong>
+      </p>
+
+      <h2>Usage logging</h2>
+      <p>
+        To enforce the free daily AI limit and keep the service running, our
+        backend keeps a minimal per-scan usage record: counts, the AI model used,
+        token counts, an estimated cost, timing, your app version, and OS version.
+        This ledger is about <em>usage</em> — it does <strong>not</strong> contain
+        your food diary and does <strong>not</strong> contain the image you scanned.
+      </p>
+
+      <h2>What stays on your device / in your iCloud</h2>
+      <ul>
+        <li>
+          <strong>Your entire food diary</strong> — everything you log is stored
+          on your device and synced through your <strong>private iCloud
+          database</strong>, across your own devices only. We have no access to it.
+        </li>
+        <li>
+          <strong>All Apple Health data</strong> — if you connect Apple Health,
+          those values stay on your phone. The app only keeps a local "connected"
+          flag; <strong>no Health values are sent anywhere</strong>.
+        </li>
+      </ul>
+
+      <h2>No ads or tracking</h2>
+      <p>
+        Calorie Cownter contains no advertising, no ad networks, and no
+        third-party analytics or tracking SDKs. This website has none either.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        Calorie Cownter is not directed at children under 13, and we don't
+        knowingly collect personal information from them.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        If this policy changes, we'll update this page and the "last updated" date
+        above.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about privacy? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
