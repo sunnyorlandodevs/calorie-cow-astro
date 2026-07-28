@@ -27,7 +27,7 @@ public/
   CNAME              custom domain for GitHub Pages (caloriecownter.com)
   favicon.svg        STUB favicon (placeholder cow)
 src/
-  config.ts          site name, nav, email, APP_STORE_URL (null until launch)
+  config.ts          site name, description, email, APP_STORE_URL (null until launch)
   styles/global.css  design tokens mirrored from the app's palette
   assets/icon.svg    STUB app icon (placeholder cow) — swappable
   components/        Wordmark, Nav, Footer

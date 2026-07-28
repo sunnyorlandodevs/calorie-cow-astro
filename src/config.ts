@@ -6,12 +6,6 @@ export const SITE = {
   email: 'marco@sunnyorlando.dev',
 };
 
-export const NAV = [
-  { label: 'Features', href: '/#features' },
-  { label: 'Privacy', href: '/privacy' },
-  { label: 'Contact', href: '/#contact' },
-];
-
 // TODO(launch): drop the real App Store URL here once the app is live. The
 // hero badge reads this — a real link is a one-line swap. Leaving it null
 // keeps the badge non-clickable ("Coming soon") on purpose.
