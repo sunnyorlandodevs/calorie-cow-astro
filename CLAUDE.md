@@ -33,7 +33,7 @@ means `npm run build` succeeds and the page looks right in `npm run preview`
 
 - `src/layouts/BaseLayout.astro` — the HTML shell: `<head>`/SEO/OG + Google
   Fonts, then `<Nav />`, `<main><slot/></main>`, `<Footer />`. Every page uses it.
-- `src/components/` — `Wordmark` (🐄 badge lockup), `Nav` (top bar, links are
+- `src/components/` — `Wordmark` (app-icon badge lockup), `Nav` (top bar, links are
   root-anchored `/#features` so they work from the legal pages), `Footer` (dark
   "Ready to start cownting?" CTA band + bottom strip). Nav and Footer are
   **site-wide** — they render on the legal pages too.
@@ -106,10 +106,19 @@ branch here yet (unlike `../CaloriePanda` and `../caloriepanda-api`, where
 short-lived branch and merge to `main` only when it's ready to be public.
 
 GitHub Pages via `.github/workflows/deploy.yml` (Node 22, `npm ci`, `astro
-build`, upload `dist/`) on push to `main`. Custom domain: `public/CNAME`
-(`caloriecownter.com`) + `site:` in `astro.config.mjs`. See the README's
-"NOTES — manual steps before launch" for the remaining manual setup (create repo,
-enable Pages, DNS, swap stubs, legal dates).
+build`, upload `dist/`) on push to `main`. The workflow passes the origin and
+base path GitHub Pages reports into `astro build --site/--base`, and internal
+links go through `withBase()` in `src/config.ts` — so the site works at the
+current project URL (https://sunnyorlandodevs.github.io/calorie-cow-astro/) and
+will flip to `caloriecownter.com` root automatically once the custom domain is
+set in the Pages settings (`public/CNAME` + `site:` in `astro.config.mjs` are
+already in place). See the README's "NOTES — manual steps before launch" for
+what's left (DNS/custom domain, App Store URL, legal dates).
+
+The icon assets in `public/` (favicon.svg, favicon-96.png, apple-touch-icon.png,
+og-default.png) are **generated** from the app-icon source art in
+`AppIcon.icon/` by `node scripts/generate-icons.mjs` — regenerate, don't
+hand-edit.
 
 ## Writing voice
 

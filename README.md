@@ -23,13 +23,19 @@ means `npm run build` succeeds and the pages look right in `npm run preview`.
 ## Structure
 
 ```
+AppIcon.icon/        app-icon source art (Icon Composer; the SVG + background gradient)
+Icon Exports/        composed 1024px PNG exports of the app icon (all iOS variants)
+scripts/
+  generate-icons.mjs regenerates the public/ icon assets from AppIcon.icon
 public/
   CNAME              custom domain for GitHub Pages (caloriecownter.com)
-  favicon.svg        STUB favicon (placeholder cow)
+  favicon.svg        real app icon (generated — don't hand-edit)
+  favicon-96.png     PNG favicon fallback (generated)
+  apple-touch-icon.png  180px home-screen icon (generated)
+  og-default.png     social-preview card (generated)
 src/
   config.ts          site name, description, email, APP_STORE_URL (null until launch)
   styles/global.css  design tokens mirrored from the app's palette
-  assets/icon.svg    STUB app icon (placeholder cow) — swappable
   components/        Wordmark, Nav, Footer
   layouts/           BaseLayout (head/meta + Nav + Footer)
   pages/
@@ -52,21 +58,20 @@ product.
 
 ## NOTES — manual steps before launch
 
-This repo is committed locally but **not** pushed or wired to GitHub Pages yet.
-Remaining steps for Marco:
+The repo lives at `sunnyorlandodevs/calorie-cow-astro` and deploys via GitHub
+Pages (Actions) on every push to `main` — currently served at
+<https://sunnyorlandodevs.github.io/calorie-cow-astro/>. The deploy workflow
+builds against whatever URL Pages reports, so it will switch to the custom
+domain automatically once that's configured. Remaining steps for Marco:
 
-1. **Create the GitHub repo** and push `main` (no repo exists yet — nothing was
-   pushed).
-2. **Enable GitHub Pages**: repo Settings → Pages → Source = **GitHub Actions**.
-   The workflow in `.github/workflows/deploy.yml` deploys on every push to `main`.
-3. **Custom domain + DNS**: add `caloriecownter.com` as the custom domain in the
+1. **Custom domain + DNS**: add `caloriecownter.com` as the custom domain in the
    Pages settings (the `public/CNAME` file is already in place), then point DNS
    at GitHub Pages (A/AAAA records for the apex, or a CNAME for `www`).
-4. **Swap in the real App Store URL**: set `APP_STORE_URL` in `src/config.ts`.
+2. **Swap in the real App Store URL**: set `APP_STORE_URL` in `src/config.ts`.
    The hero badge automatically turns into a working link; until then it shows a
    non-clickable "Coming soon" badge.
-5. **Replace the stub assets** (see below).
-6. **Legal review + dates**: fill the `[DATE PLACEHOLDER]` on `/privacy` and
+3. **Replace the remaining stubs** (see below).
+4. **Legal review + dates**: fill the `[DATE PLACEHOLDER]` on `/privacy` and
    `/terms`, and the `[JURISDICTION PLACEHOLDER]` in `/terms`. Both pages carry a
    visible "Draft — pending legal review" banner until then.
 
@@ -74,8 +79,6 @@ Remaining steps for Marco:
 
 | What | Where | Notes |
 |---|---|---|
-| Brand badge | `src/components/Wordmark.astro` | The 🐄 badge is a stand-in for the real app icon; swap the badge contents for an SVG/`<img>` mark. |
-| Favicon | `public/favicon.svg` | Placeholder cow. |
 | Hero phone mock | `src/pages/index.astro` (`.hero-visual`) | Illustrative CSS mock, not a screenshot. Optional: replace with a real device capture. |
 | App Store URL | `src/config.ts` → `APP_STORE_URL` | Currently `null` → "Coming soon" badge (in the hero and footer). |
 | Legal dates / jurisdiction | `src/pages/{privacy,terms}.astro` | `[DATE PLACEHOLDER]`, `[JURISDICTION PLACEHOLDER]`. |

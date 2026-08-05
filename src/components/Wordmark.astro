@@ -1,7 +1,7 @@
 ---
-// Brand lockup for Calorie Cownter: a rounded cow badge + wordmark, matching
-// the Claude Design landing page. TODO(launch): the 🐄 badge is a stand-in for
-// the real app icon — swap the badge contents for an <img>/SVG mark when ready.
+// Brand lockup for Calorie Cownter: the real app icon + wordmark. The badge
+// image is public/favicon.svg, generated from the app-icon source art by
+// scripts/generate-icons.mjs.
 import { withBase } from '../config';
 
 interface Props {
@@ -14,7 +14,7 @@ const Tag = href ? 'a' : 'span';
 ---
 
 <Tag class:list={['wordmark', { 'on-dark': onDark }]} href={href ?? undefined}>
-  <span class="wm-badge" aria-hidden="true">🐄</span>
+  <img class="wm-badge" src={withBase('/favicon.svg')} alt="" width="34" height="34" />
   <span class="wm-text">Calorie <span class="wm-accent">Cownter</span></span>
 </Tag>
 
@@ -34,13 +34,7 @@ const Tag = href ? 'a' : 'span';
   .wm-badge {
     width: 34px;
     height: 34px;
-    border-radius: 10px;
-    background: var(--action);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    line-height: 1;
+    display: block;
   }
   .wm-text { display: inline-flex; gap: 0; }
   .wm-accent { color: var(--action); margin-left: -4px; }
