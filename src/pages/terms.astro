@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../config';
+import { SITE, withBase } from '../config';
 ---
 
 <BaseLayout title="Terms & Conditions" description="The terms for using Calorie Cownter.">
@@ -47,7 +47,7 @@ import { SITE } from '../config';
       <p>
         Some features require signing in with Sign in with Apple. You're responsible
         for the activity under your account. See the
-        <a href="/privacy">Privacy Policy</a> for what we store when you sign in.
+        <a href={withBase('/privacy')}>Privacy Policy</a> for what we store when you sign in.
       </p>
 
       <h2>Subscriptions and auto-renewal</h2>

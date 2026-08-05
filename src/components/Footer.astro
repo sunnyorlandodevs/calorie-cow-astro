@@ -1,5 +1,5 @@
 ---
-import { SITE, APP_STORE_URL } from '../config';
+import { SITE, APP_STORE_URL, withBase } from '../config';
 const year = new Date().getFullYear();
 const isLive = APP_STORE_URL != null;
 ---
@@ -32,8 +32,8 @@ const isLive = APP_STORE_URL != null;
     <div class="footer-base">
       <span>Made with care in Orlando 🐄</span>
       <span class="footer-base-links">
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
+        <a href={withBase('/privacy')}>Privacy</a>
+        <a href={withBase('/terms')}>Terms</a>
         <span>© {year} Calorie Cownter</span>
       </span>
     </div>

@@ -2,12 +2,14 @@
 // Brand lockup for Calorie Cownter: a rounded cow badge + wordmark, matching
 // the Claude Design landing page. TODO(launch): the 🐄 badge is a stand-in for
 // the real app icon — swap the badge contents for an <img>/SVG mark when ready.
+import { withBase } from '../config';
+
 interface Props {
   /** When true, use light text (for use on the dark footer). */
   onDark?: boolean;
   href?: string | null;
 }
-const { onDark = false, href = '/' } = Astro.props;
+const { onDark = false, href = withBase('/') } = Astro.props;
 const Tag = href ? 'a' : 'span';
 ---
 

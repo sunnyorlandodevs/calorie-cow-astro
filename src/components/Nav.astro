@@ -1,20 +1,21 @@
 ---
 import Wordmark from './Wordmark.astro';
+import { withBase } from '../config';
 // Links use root-anchored hrefs (/#features) so they also work from the
 // legal pages, jumping back to the landing sections.
 const links = [
-  { label: 'Features', href: '/#features' },
-  { label: 'How it works', href: '/#how' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Features', href: withBase('/#features') },
+  { label: 'How it works', href: withBase('/#how') },
+  { label: 'FAQ', href: withBase('/#faq') },
 ];
 ---
 
 <nav>
   <div class="nav-inner">
-    <Wordmark href="/" />
+    <Wordmark href={withBase('/')} />
     <div class="nav-links">
       {links.map(({ label, href }) => <a href={href}>{label}</a>)}
-      <a class="nav-cta" href="/#get">Get the app</a>
+      <a class="nav-cta" href={withBase('/#get')}>Get the app</a>
     </div>
   </div>
 </nav>

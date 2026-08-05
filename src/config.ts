@@ -1,3 +1,11 @@
+// Until the custom domain is live, GitHub Pages serves the site under
+// /calorie-cow-astro (the deploy workflow passes --base), so internal links
+// and public/ assets must be prefixed with Astro's base to resolve.
+export function withBase(path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  return `${base}${path}`;
+}
+
 export const SITE = {
   name: 'Calorie Cownter',
   url: 'https://caloriecownter.com',

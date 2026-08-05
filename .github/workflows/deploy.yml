@@ -26,11 +26,19 @@ jobs:
           node-version: 22
           cache: 'npm'
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
       - name: Install dependencies
         run: npm ci
+      # Build against whatever URL Pages is actually serving from. Today that
+      # is https://sunnyorlandodevs.github.io/calorie-cow-astro; once the
+      # caloriecownter.com custom domain is configured in the repo's Pages
+      # settings, these outputs change and the build follows automatically.
       - name: Build with Astro
-        run: npm run build
+        env:
+          PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: npm run build -- --site "$PAGES_ORIGIN" --base "${PAGES_BASE_PATH:-/}"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
