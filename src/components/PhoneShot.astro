@@ -1,0 +1,61 @@
+---
+/**
+ * A real app screenshot inside an iPhone bezel.
+ *
+ * The screenshots in src/assets/screenshots/ are captured at device resolution
+ * and already include the iOS status bar, so the frame here is just the bezel —
+ * no fake chrome, no simulated notch drawn on top of the image.
+ *
+ * Astro's <Image> handles the downscale + webp conversion at build time; pass
+ * `width` in CSS pixels and it emits a 2x-ready asset.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** Rendered width of the phone in CSS px. Bezel scales with it. */
+  width?: number;
+  /** Skip the lazy-load default for the hero shot (it's above the fold). */
+  eager?: boolean;
+  class?: string;
+}
+
+const { src, alt, width = 264, eager = false, class: className } = Astro.props;
+
+// Bezel proportions, tuned to read as a modern iPhone at any width.
+const pad = Math.round(width * 0.042);
+const outerRadius = Math.round(width * 0.167);
+const innerRadius = outerRadius - pad;
+---
+
+<div
+  class:list={['phone', className]}
+  style={`width:${width}px;padding:${pad}px;border-radius:${outerRadius}px`}
+>
+  <Image
+    class="phone-screen"
+    src={src}
+    alt={alt}
+    width={width * 2}
+    loading={eager ? 'eager' : 'lazy'}
+    style={`border-radius:${innerRadius}px`}
+  />
+</div>
+
+<style>
+  .phone {
+    position: relative;
+    background: #0f0d0b;
+    box-shadow:
+      0 30px 60px rgba(30, 20, 10, 0.28),
+      inset 0 2px 0 rgba(255, 255, 255, 0.06);
+    flex: none;
+  }
+  .phone-screen {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -10,11 +10,23 @@ export const SITE = {
   name: 'Calorie Cownter',
   url: 'https://caloriecownter.com',
   description:
-    'A warm, private calorie and macro tracker for iPhone. Start logging in seconds — no account, no ads, and your food diary stays in your own iCloud.',
+    'A warm, private calorie and macro tracker for iPhone and iPad. Type a meal, scan a barcode, or snap a photo and let AI do the math — no account, no ads, and your food diary stays in your own iCloud.',
   email: 'marco@sunnyorlando.dev',
 };
 
 // TODO(launch): drop the real App Store URL here once the app is live. The
-// hero badge reads this — a real link is a one-line swap. Leaving it null
-// keeps the badge non-clickable ("Coming soon") on purpose.
+// hero + footer badges read this — a real link is a one-line swap. Leaving it
+// null keeps both badges non-clickable ("Coming soon") on purpose.
 export const APP_STORE_URL: string | null = null;
+
+// Calorie Cow Pro — the optional subscription for unlimited AI photo scans.
+// Everything else in the app is free. `price` stays null until the App Store
+// Connect product is final; while it is null the site describes Pro without
+// quoting a number, so we can never show a price that disagrees with Apple's.
+// See ../CaloriePanda/docs/app-store/03-subscription.md.
+export const PRO = {
+  name: 'Calorie Cow Pro',
+  freeScansPerDay: 3,
+  price: null as string | null, // e.g. '$4.99/month'
+  trialDays: 7,
+};

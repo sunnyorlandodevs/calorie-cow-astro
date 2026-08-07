@@ -66,9 +66,20 @@ directives that must be translated to Astro + native HTML by hand.
   keep it that way.
 - **App Store seam.** `APP_STORE_URL` in `config.ts` is `null` until launch,
   which renders a non-clickable "Coming soon" badge in both the hero and the
-  footer. Setting it to the real URL turns both into working links — a one-line
-  swap. Do not add a price or a buy/subscribe button (there is no working
-  purchase yet; subscription is a soft "coming soon" only).
+  footer (plus a "Launching soon on iOS" note). Setting it to the real URL turns
+  both into working links — a one-line swap.
+- **Subscription seam.** Calorie Cow Pro (unlimited AI photo scans) ships with
+  the 1.0 App Store release, so the site describes it as a real product rather
+  than "coming soon". But `PRO.price` in `config.ts` stays `null` until the App
+  Store Connect product is final — while null, copy describes Pro without
+  quoting a number, so the site can never show a price that disagrees with
+  Apple's. Never add a buy/subscribe button: the purchase happens in the app,
+  and a web checkout would be both wrong and an App Store problem.
+- **Screenshots are real captures**, in `src/assets/screenshots/`, rendered via
+  `components/PhoneShot.astro` (bezel + Astro `<Image>` → webp at build time).
+  Don't reintroduce CSS-drawn fake app UI; if a shot is outdated, re-capture it.
+  The bezel comes from the component, so captures should be raw full-height
+  screenshots. See the README for capture rules.
 - **Fonts:** Nunito (up to weight 900 for headings) + JetBrains Mono (mono
   labels/kickers), loaded via the `@import` in `global.css`.
 

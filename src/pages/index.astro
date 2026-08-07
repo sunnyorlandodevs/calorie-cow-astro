@@ -1,17 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { APP_STORE_URL } from '../config';
+import PhoneShot from '../components/PhoneShot.astro';
+import { APP_STORE_URL, PRO } from '../config';
+
+// Real device captures, not mockups. See NOTES in the README for how to refresh
+// them (they must be re-shot whenever the app's visual design changes).
+import todayShot from '../assets/screenshots/today.png';
+import summaryShot from '../assets/screenshots/summary.png';
+import widgetsShot from '../assets/screenshots/widgets.png';
+
+const isLive = APP_STORE_URL != null;
+
+// Pro is described without a number until the App Store product is final —
+// PRO.price stays null so the site can never contradict Apple's price.
+const proLine = PRO.price
+  ? `${PRO.name} unlocks unlimited scans for ${PRO.price}, with a ${PRO.trialDays}-day free trial.`
+  : `${PRO.name} unlocks unlimited scans.`;
 
 // FAQ content — mirrors the verified data flows (photos discarded, iCloud-only
 // diary, 3 free AI scans, Sign in with Apple only for AI).
 const faqs = [
   {
     q: 'Is it free?',
-    a: "Mostly, yes. Logging, barcode scanning, and Apple Health are free with no ads. AI photo scans are free three times a day; an optional subscription for unlimited scans is coming soon.",
+    a: `Mostly, yes. Logging, barcode scanning, widgets, and Apple Health are all free, with no ads. AI photo scans are free ${PRO.freeScansPerDay} times a day — ${proLine}`,
   },
   {
     q: 'Do I need an account?',
-    a: "No. Open the app and start logging. Sign in with Apple is only needed if you want the free daily AI scans.",
+    a: 'No. Open the app and start logging. Sign in with Apple is only needed if you want the AI photo scans.',
   },
   {
     q: 'Where does my data live?',
@@ -22,8 +37,12 @@ const faqs = [
     a: "A photo is analyzed to estimate nutrition, then discarded. We don't store it.",
   },
   {
-    q: 'When can I get it?',
-    a: "It's in pre-beta right now. The App Store badge on this page goes live the moment the app does.",
+    q: 'Does it work on iPad?',
+    a: 'Yes — iPad gets a layout built for the bigger screen, not a stretched phone app. Everything syncs through your iCloud, so your diary is the same on both.',
+  },
+  {
+    q: 'Is there an Android version?',
+    a: "No, and there aren't plans for one. Calorie Cownter leans hard on Apple-only things — iCloud sync, Apple Health, widgets, Sign in with Apple — and doing that well is the whole point.",
   },
 ];
 ---
@@ -32,7 +51,7 @@ const faqs = [
   <!-- ============ HERO ============ -->
   <div class="hero">
     <div class="hero-copy">
-      <p class="hero-kicker">For iPhone · Pre-beta</p>
+      <p class="hero-kicker">For iPhone &amp; iPad</p>
       <h1 class="hero-title">Count calories without having a <span>cow</span>.</h1>
       <p class="hero-lede">
         Log a meal in seconds, scan a barcode, or snap a photo and let AI do the
@@ -41,7 +60,7 @@ const faqs = [
       </p>
 
       <div id="get" class="hero-cta">
-        {APP_STORE_URL ? (
+        {isLive ? (
           <a class="appstore appstore-live" href={APP_STORE_URL}>
             <span class="appstore-top">Download on the</span>
             <span class="appstore-bottom">App Store</span>
@@ -54,7 +73,7 @@ const faqs = [
             <span class="appstore-bottom">App Store</span>
           </span>
         )}
-        <span class="hero-note">Currently in pre-beta</span>
+        {!isLive && <span class="hero-note">Launching soon on iOS</span>}
       </div>
 
       <div class="hero-points">
@@ -64,31 +83,14 @@ const faqs = [
       </div>
     </div>
 
-    <!-- Illustrative in-app phone mock (not a screenshot). TODO(launch): can be
-         replaced with a real device screenshot once the app is captured. -->
     <div class="hero-visual">
       <div class="hero-halo"></div>
-      <div class="phone">
-        <div class="phone-screen">
-          <div class="phone-head"><span class="phone-title">Today</span><span class="phone-date">Jul 20</span></div>
-          <div class="phone-ring-wrap">
-            <div class="phone-ring">
-              <div class="phone-ring-hole"><span class="phone-kcal">1,478</span><span class="phone-kcal-label">kcal left</span></div>
-            </div>
-          </div>
-          <div class="phone-macros">
-            <div class="macro"><span class="macro-label">Protein</span><span class="macro-track"><span class="macro-fill" style="width:55%;background:#C7392B"></span></span></div>
-            <div class="macro"><span class="macro-label">Carbs</span><span class="macro-track" style="background:#F1E3C4"><span class="macro-fill" style="width:72%;background:#C89018"></span></span></div>
-            <div class="macro"><span class="macro-label">Fat</span><span class="macro-track" style="background:#DCE2F5"><span class="macro-fill" style="width:64%;background:#2E57D9"></span></span></div>
-          </div>
-          <div class="phone-meals">
-            <div class="meal"><span class="meal-name">Breakfast</span><span class="meal-kcal">790 kcal</span></div>
-            <div class="meal"><span class="meal-name">Lunch</span><span class="meal-kcal">590 kcal</span></div>
-            <div class="meal meal-empty"><span class="meal-name">Dinner</span><span class="meal-add">＋ add</span></div>
-          </div>
-          <div class="phone-activity"><span>🔥 Activity</span><span class="phone-activity-val">+608 kcal earned</span></div>
-        </div>
-      </div>
+      <PhoneShot
+        src={todayShot}
+        alt="The Calorie Cownter home screen: 2,122 calories left of a 2,852 budget, protein, carbs and fat bars, a strength-training workout that earned 352 calories back, and a logged breakfast."
+        width={276}
+        eager={true}
+      />
     </div>
   </div>
 
@@ -105,20 +107,113 @@ const faqs = [
         </article>
         <article class="feature">
           <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 6V3.5A1.5 1.5 0 0 1 3.5 2H6M14 2h2.5A1.5 1.5 0 0 1 18 3.5V6M18 14v2.5a1.5 1.5 0 0 1-1.5 1.5H14M6 18H3.5A1.5 1.5 0 0 1 2 16.5V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><path d="M6 7v6M9.5 7v6M13 7v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
-          <h3 class="feature-title">Scan a barcode</h3>
-          <p class="feature-body">Point your camera at a package and we look it up in the Open Food Facts database. Still no account required.</p>
+          <h3 class="feature-title">Scan a barcode, or search</h3>
+          <p class="feature-body">Point your camera at a package, or search a database of over a million foods. Still no account required.</p>
         </article>
         <article class="feature feature-ai">
           <span class="feature-icon feature-icon-ai"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 4.6L16.5 8l-4.7 1.4L10 14l-1.8-4.6L3.5 8l4.7-1.4L10 2z" fill="currentColor"></path><path d="M16 13l.9 2.1L19 16l-2.1.9L16 19l-.9-2.1L13 16l2.1-.9L16 13z" fill="currentColor"></path></svg></span>
           <h3 class="feature-title">Snap a photo, AI does the math</h3>
-          <p class="feature-body">Photograph your plate or just describe it — AI estimates the calories and macros. <b>Three free scans a day</b> with Sign in with Apple.</p>
-          <span class="feature-soon">Unlimited scans subscription coming soon</span>
+          <p class="feature-body">Photograph your plate or just describe it — AI estimates the calories and macros for the whole meal at once. <b>Three free scans a day</b> with Sign in with Apple.</p>
+          <span class="feature-pro">{proLine}</span>
         </article>
         <article class="feature">
           <span class="feature-icon"><svg width="20" height="18" viewBox="0 0 20 18" fill="none"><path d="M10 16.5S2 11.5 2 6.4A4.4 4.4 0 0 1 6.4 2C8 2 9.4 2.9 10 4.2 10.6 2.9 12 2 13.6 2A4.4 4.4 0 0 1 18 6.4c0 5.1-8 10.1-8 10.1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg></span>
           <h3 class="feature-title">Apple Health, earned back</h3>
-          <p class="feature-body">Workouts and daily movement raise your calorie budget. Your Health data never leaves your phone.</p>
+          <p class="feature-body">Workouts and daily movement raise your calorie budget, and the app shows exactly where the extra came from. Your Health data never leaves your phone.</p>
         </article>
+        <article class="feature">
+          <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="2.5" width="15" height="15" rx="4.5" stroke="currentColor" stroke-width="1.8"></rect><path d="M10 6.5v3.5l2.4 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+          <h3 class="feature-title">Widgets that answer the question</h3>
+          <p class="feature-body">Calories left, right on your Home Screen and Lock Screen. Most days you won't need to open the app at all.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l2.3 4.9 5.2.7-3.8 3.7.9 5.2L10 14.6l-4.6 2.4.9-5.2L2.5 8.1l5.2-.7L10 2.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path></svg></span>
+          <h3 class="feature-title">Eat it often? Two taps</h3>
+          <p class="feature-body">Save favorites and re-log the meals you eat all the time. Recent foods are right there too.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SCREENSHOT SHOWCASE ============ -->
+  <div id="look" class="section">
+    <p class="kicker">A look inside</p>
+    <h2 class="h-section h-narrower">Warm, quiet, and honest about your day.</h2>
+
+    <div class="shot-row">
+      <div class="shot-visual">
+        <PhoneShot
+          src={summaryShot}
+          alt="The Summary tab on Week: 2,207 calories eaten per day on average, under budget 3 of 4 days, a bar chart comparing calories eaten against the budget for each day, and macro averages against goal."
+          width={252}
+        />
+      </div>
+      <div class="shot-copy">
+        <h3 class="shot-title">See the week in plain language</h3>
+        <p class="shot-body">
+          No spreadsheet, no lecture. Summary tells you the number that matters —
+          "under budget 3 of 4 days" — then shows the chart behind it. Days you
+          haven't logged stay faded instead of counting as zero.
+        </p>
+        <ul class="shot-list">
+          <li>Day, week, and month views</li>
+          <li>Budget bars include the calories your activity earned</li>
+          <li>Macro averages against your goal, over or under</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="shot-row shot-row-alt">
+      <div class="shot-visual">
+        <PhoneShot
+          src={widgetsShot}
+          alt="An iPhone Home Screen with two warm brown Calorie Cownter widgets: a medium one reading 1,947 calories left, 820 of 2,767 eaten, one meal logged, with a segmented macro bar and protein, carbs and fat totals; and a small one showing just the number left today."
+          width={252}
+        />
+      </div>
+      <div class="shot-copy">
+        <h3 class="shot-title">Your day, one glance away</h3>
+        <p class="shot-body">
+          Put the number where you'll actually see it. The small widget is just
+          calories left; the medium one spells out your macros. Both sit on the
+          Lock Screen too, so checking in costs you a glance instead of a tap.
+        </p>
+        <ul class="shot-list">
+          <li>Small and medium Home Screen widgets</li>
+          <li>Lock Screen widgets, circular and rectangular</li>
+          <li>Updates as you log — nothing to refresh</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PRIVACY ============ -->
+  <div class="band-dark">
+    <div class="section privacy">
+      <p class="kicker kicker-on-dark">Private by design</p>
+      <h2 class="h-section privacy-title">Your food diary is yours. We literally can't read it.</h2>
+      <p class="privacy-lede">
+        Not a policy promise — a design decision. There's no account to create
+        and no copy of your diary on our servers, because there's nowhere for it
+        to go but your own iCloud.
+      </p>
+      <div class="privacy-grid">
+        <div class="privacy-item">
+          <h3 class="privacy-item-title">Your diary syncs in your iCloud</h3>
+          <p class="privacy-item-body">Meals, goals, and favorites live in your private iCloud database. It's on your devices, not ours.</p>
+        </div>
+        <div class="privacy-item">
+          <h3 class="privacy-item-title">Health data stays on your phone</h3>
+          <p class="privacy-item-body">Activity is read on-device to work out your budget. Those numbers are never sent anywhere.</p>
+        </div>
+        <div class="privacy-item">
+          <h3 class="privacy-item-title">Scanned photos are discarded</h3>
+          <p class="privacy-item-body">A photo is analyzed to estimate nutrition and then thrown away. We don't keep it.</p>
+        </div>
+        <div class="privacy-item">
+          <h3 class="privacy-item-title">No ads, no tracking</h3>
+          <p class="privacy-item-body">No advertising, no analytics SDKs, nothing sold to anyone. There's no business model that needs it.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -243,7 +338,6 @@ const faqs = [
   }
   .hero-points span { display: inline-flex; align-items: center; gap: 7px; }
 
-  /* ---------- HERO PHONE MOCK ---------- */
   .hero-visual {
     flex: 1 1 400px;
     display: flex;
@@ -261,75 +355,10 @@ const faqs = [
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  .phone {
-    position: relative;
-    width: 264px;
-    background: #0f0d0b;
-    border-radius: 44px;
-    padding: 11px;
-    box-shadow: 0 30px 60px rgba(30, 20, 10, 0.28), inset 0 2px 0 rgba(255, 255, 255, 0.06);
-  }
-  .phone-screen {
-    border-radius: 34px;
-    overflow: hidden;
-    background: #f6f2e9;
-    padding: 26px 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .phone-head { display: flex; justify-content: space-between; align-items: baseline; }
-  .phone-title { font-family: var(--font-sans); font-weight: 800; font-size: 22px; color: #201a12; letter-spacing: -0.02em; }
-  .phone-date { font-weight: 600; font-size: 11px; color: #a2988a; }
-  .phone-ring-wrap { display: flex; justify-content: center; padding: 4px 0; }
-  .phone-ring {
-    width: 132px;
-    height: 132px;
-    border-radius: 50%;
-    background: conic-gradient(#6b4e2e 0 62%, #eae1d2 62% 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .phone-ring-hole {
-    width: 104px;
-    height: 104px;
-    border-radius: 50%;
-    background: #f6f2e9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .phone-kcal { font-family: var(--font-sans); font-weight: 800; font-size: 24px; color: #201a12; letter-spacing: -0.02em; }
-  .phone-kcal-label { font-weight: 600; font-size: 10.5px; color: #a2988a; }
-  .phone-macros { display: flex; flex-direction: column; gap: 7px; }
-  .macro { display: flex; align-items: center; gap: 8px; }
-  .macro-label { font-weight: 700; font-size: 10px; color: #4a3f32; width: 44px; }
-  .macro-track { flex: 1; height: 6px; border-radius: 3px; background: #f4dbd6; }
-  .macro-fill { display: block; height: 6px; border-radius: 3px; }
-  .phone-meals { background: #fff; border-radius: 16px; padding: 2px 12px; }
-  .meal { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #efe9dd; }
-  .meal:last-child { border-bottom: none; }
-  .meal-name { font-weight: 700; font-size: 12.5px; color: #201a12; }
-  .meal-kcal { font-weight: 600; font-size: 12px; color: #a2988a; }
-  .meal-empty .meal-name { color: #a2988a; }
-  .meal-add { font-weight: 600; font-size: 12px; color: #6b4e2e; }
-  .phone-activity {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #efe7d9;
-    border-radius: 12px;
-    padding: 9px 12px;
-    font-weight: 700;
-    font-size: 11.5px;
-    color: #6b4e2e;
-  }
-  .phone-activity-val { font-weight: 800; }
 
   /* ---------- SHARED SECTION PRIMITIVES ---------- */
   .band-soft { background: var(--soft); }
+  .band-dark { background: var(--dark); color: var(--on-dark); }
   .section {
     max-width: var(--container);
     margin: 0 auto;
@@ -344,6 +373,7 @@ const faqs = [
     text-transform: uppercase;
     color: var(--action);
   }
+  .kicker-on-dark { color: var(--tan); }
   .h-section {
     margin: 0;
     font-family: var(--font-sans);
@@ -388,7 +418,105 @@ const faqs = [
     background: linear-gradient(180deg, var(--aisoft), var(--surface) 70%);
   }
   .feature-icon-ai { background: var(--aisoft); color: var(--ai); }
-  .feature-soon { font-family: var(--font-mono); font-weight: 500; font-size: 12px; color: var(--ai); }
+  .feature-pro {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ai);
+  }
+
+  /* ---------- SCREENSHOT SHOWCASE ---------- */
+  .shot-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 56px;
+    margin-top: 56px;
+  }
+  .shot-row-alt { flex-direction: row-reverse; }
+  .shot-visual {
+    flex: 0 1 300px;
+    display: flex;
+    justify-content: center;
+  }
+  .shot-copy { flex: 1 1 400px; min-width: 0; }
+  .shot-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(24px, 3vw, 30px);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .shot-body {
+    margin: 16px 0 0;
+    font-size: 16.5px;
+    line-height: 1.65;
+    color: var(--ink2);
+    max-width: 46ch;
+    text-wrap: pretty;
+  }
+  .shot-list {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .shot-list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink2);
+  }
+  .shot-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--action-soft);
+  }
+
+  /* ---------- PRIVACY ---------- */
+  .privacy-title { max-width: 24ch; }
+  .privacy-lede {
+    margin: 20px 0 0;
+    font-size: 17.5px;
+    line-height: 1.65;
+    color: var(--on-dark-2);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+    margin-top: 52px;
+  }
+  .privacy-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    padding-top: 18px;
+  }
+  .privacy-item-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+  .privacy-item-body {
+    margin: 10px 0 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--on-dark-2);
+  }
 
   /* ---------- HOW IT WORKS ---------- */
   .steps {
@@ -442,5 +570,8 @@ const faqs = [
     .hero { padding-top: 20px; }
     .section { padding: 68px var(--gutter); }
     .faq-wrap { padding: 68px var(--gutter); }
+    .shot-row { gap: 36px; margin-top: 44px; }
+    /* Keep the image above the copy on narrow screens for both rows. */
+    .shot-row-alt { flex-direction: row; }
   }
 </style>
