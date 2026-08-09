@@ -77,6 +77,12 @@ Shots currently in use, all captured 2026-08-09:
 | `widgets.png` | widgets row (the shipping brown "Tinted" widgets) |
 | `ipad.png` | iPad row, landscape |
 
+Every shot is clickable and opens a full-size version. That lightbox is the
+native popover API, so it needs no JavaScript and gets Esc and click-outside to
+close for free; browsers too old to support it simply don't zoom. The enlarged
+copy is a second, larger rendition of the same image, and a closed popover is
+`display: none`, so nothing downloads it until someone actually clicks.
+
 Rows holding more than one shot use `.shot-strip`, a CSS-only carousel: the
 shots sit side by side at desktop widths and become a scroll-snapped swipe strip
 below 860px, where it also bleeds into the gutter so the next card peeks in. If

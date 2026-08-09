@@ -1,13 +1,19 @@
 ---
 /**
- * A real app screenshot inside a device bezel.
+ * A real app screenshot inside a device bezel, click to enlarge.
  *
  * The screenshots in src/assets/screenshots/ are captured at device resolution
  * and already include the iOS status bar, so the frame here is just the bezel —
  * no fake chrome, no simulated notch drawn on top of the image.
  *
  * Astro's <Image> handles the downscale + webp conversion at build time; pass
- * `width` in CSS pixels and it emits a 2x-ready asset.
+ * `width` in CSS pixels and it emits a 2x-ready asset. The enlarged copy is a
+ * second, bigger rendition that browsers only fetch once the popover opens,
+ * since a closed popover is display:none.
+ *
+ * The lightbox is the native popover API: no JavaScript, and Esc plus
+ * click-outside come for free. Browsers without it fall back to no zoom (see
+ * the @supports rule) rather than dumping the panel into the page.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -23,6 +29,8 @@ interface Props {
   label?: string;
   /** Skip the lazy-load default for the hero shot (it's above the fold). */
   eager?: boolean;
+  /** Only needed if the same screenshot is used twice on one page. */
+  id?: string;
   class?: string;
 }
 
@@ -33,6 +41,7 @@ const {
   device = 'phone',
   label,
   eager = false,
+  id,
   class: className,
 } = Astro.props;
 
@@ -41,21 +50,45 @@ const ratio = device === 'pad' ? { pad: 0.024, radius: 0.055 } : { pad: 0.042, r
 const pad = Math.max(3, Math.round(width * ratio.pad));
 const outerRadius = Math.round(width * ratio.radius);
 const innerRadius = Math.max(2, outerRadius - pad);
+
+// One popover per shot. The built asset path carries a content hash, so it is
+// unique per image — pass `id` if you ever reuse one screenshot on a page.
+const popId = id ?? `shot-${src.src.replace(/[^a-zA-Z0-9]/g, '').slice(-24)}`;
+
+// Big enough to stay sharp when blown up to most of the viewport.
+const zoomWidth = device === 'pad' ? 1400 : 760;
 ---
 
 <figure class:list={['shot', className]} style={`width:${width}px`}>
-  <div class="phone" style={`padding:${pad}px;border-radius:${outerRadius}px`}>
-    <Image
-      class="phone-screen"
-      src={src}
-      alt={alt}
-      width={width * 2}
-      loading={eager ? 'eager' : 'lazy'}
-      style={`border-radius:${innerRadius}px`}
-    />
-  </div>
+  <button class="shot-trigger" popovertarget={popId} style={`border-radius:${outerRadius}px`}>
+    <span class="phone" style={`padding:${pad}px;border-radius:${outerRadius}px`}>
+      <Image
+        class="phone-screen"
+        src={src}
+        alt={alt}
+        width={width * 2}
+        loading={eager ? 'eager' : 'lazy'}
+        style={`border-radius:${innerRadius}px`}
+      />
+    </span>
+    <span class="shot-zoom" aria-hidden="true">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.6" stroke="currentColor" stroke-width="1.7"></circle><path d="M10.4 10.4L14 14M7 5.2v3.6M5.2 7h3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+    </span>
+  </button>
   {label && <figcaption class="shot-label">{label}</figcaption>}
 </figure>
+
+<div class="lightbox" id={popId} popover>
+  <Image class="lightbox-img" src={src} alt={alt} width={zoomWidth} loading="lazy" />
+  <button
+    class="lightbox-close"
+    popovertarget={popId}
+    popovertargetaction="hide"
+    aria-label="Close"
+  >
+    <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>
+  </button>
+</div>
 
 <style>
   .shot {
@@ -68,8 +101,26 @@ const innerRadius = Math.max(2, outerRadius - pad);
     align-items: center;
     gap: 10px;
   }
+
+  .shot-trigger {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+  }
+  .shot-trigger:hover { transform: translateY(-3px); }
+  .shot-trigger:focus-visible {
+    outline: 2px solid var(--action);
+    outline-offset: 6px;
+  }
+
   .phone {
     position: relative;
+    display: block;
     width: 100%;
     background: #0f0d0b;
     box-shadow:
@@ -81,6 +132,30 @@ const innerRadius = Math.max(2, outerRadius - pad);
     width: 100%;
     height: auto;
   }
+
+  /* Hint that the shot opens. Always visible on touch, where there's no hover. */
+  .shot-zoom {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(15, 13, 11, 0.72);
+    color: #fff;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .shot-trigger:hover .shot-zoom,
+  .shot-trigger:focus-visible .shot-zoom { opacity: 1; transform: scale(1); }
+  @media (hover: none) {
+    .shot-zoom { opacity: 0.85; transform: none; }
+  }
+
   .shot-label {
     font-family: var(--font-mono);
     font-weight: 500;
@@ -88,5 +163,85 @@ const innerRadius = Math.max(2, outerRadius - pad);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
+  }
+
+  /* ---------- lightbox ---------- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox:not(:popover-open) { display: none; }
+  .lightbox::backdrop {
+    background: rgba(20, 16, 12, 0.82);
+    backdrop-filter: blur(3px);
+  }
+  .lightbox-img {
+    max-width: 92vw;
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    border-radius: 22px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+  .lightbox-close {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+    color: #f4ede4;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .lightbox-close:hover { background: rgba(255, 255, 255, 0.26); }
+  .lightbox-close:focus-visible {
+    outline: 2px solid #f4ede4;
+    outline-offset: 3px;
+  }
+
+  /* Fade + lift in. Skipped silently where unsupported. */
+  @media (prefers-reduced-motion: no-preference) {
+    .lightbox,
+    .lightbox::backdrop {
+      transition:
+        opacity 0.22s ease,
+        transform 0.22s ease,
+        overlay 0.22s allow-discrete,
+        display 0.22s allow-discrete;
+    }
+    .lightbox { opacity: 0; transform: scale(0.97); }
+    .lightbox::backdrop { opacity: 0; }
+    .lightbox:popover-open { opacity: 1; transform: scale(1); }
+    .lightbox:popover-open::backdrop { opacity: 1; }
+    @starting-style {
+      .lightbox:popover-open { opacity: 0; transform: scale(0.97); }
+      .lightbox:popover-open::backdrop { opacity: 0; }
+    }
+  }
+
+  /* No popover support: no zoom, and the panel stays out of the page rather
+     than rendering inline (the UA rule that hides it doesn't exist there). */
+  @supports not selector(:popover-open) {
+    [popover] { display: none; }
+    .shot-trigger { cursor: default; }
+    .shot-zoom { display: none; }
   }
 </style>
