@@ -7,7 +7,14 @@ import { APP_STORE_URL, WAITLIST_URL, PRO } from '../config';
 // them (they must be re-shot whenever the app's visual design changes).
 import todayShot from '../assets/screenshots/today.png';
 import summaryShot from '../assets/screenshots/summary.png';
+import summaryDayShot from '../assets/screenshots/summary-day.png';
+import summaryMonthShot from '../assets/screenshots/summary-month.png';
 import widgetsShot from '../assets/screenshots/widgets.png';
+import addFoodShot from '../assets/screenshots/add-food.png';
+import mealGroupShot from '../assets/screenshots/meal-group.png';
+import themeSettingsShot from '../assets/screenshots/theme-settings.png';
+import themeTodayShot from '../assets/screenshots/theme-today.png';
+import ipadShot from '../assets/screenshots/ipad.png';
 
 const isLive = APP_STORE_URL != null;
 // Before launch the waitlist is the CTA; after launch the App Store link is.
@@ -156,13 +163,28 @@ const faqs = [
     <p class="kicker">A look inside</p>
     <h2 class="h-section">Warm, quiet, and honest about your day.</h2>
 
-    <div class="shot-row">
+    <div class="shot-row shot-row--trio">
       <div class="shot-visual">
-        <PhoneShot
-          src={summaryShot}
-          alt="The Summary tab on Week: 2,207 calories eaten per day on average, under budget 3 of 4 days, a bar chart comparing calories eaten against the budget for each day, and macro averages against goal."
-          width={252}
-        />
+        <div class="shot-strip" tabindex="0" role="group" aria-label="Summary screens: day, week and month">
+          <PhoneShot
+            src={summaryDayShot}
+            label="Day"
+            alt="The Summary tab on Day: 665 calories eaten today, 1,835 left of a 2,500 budget, a breakdown of which meals it came from, and today's macros against goal."
+            width={186}
+          />
+          <PhoneShot
+            src={summaryShot}
+            label="Week"
+            alt="The Summary tab on Week: 2,207 calories eaten per day on average, under budget 3 of 4 days, a bar chart comparing calories eaten against the budget for each day, and macro averages against goal."
+            width={186}
+          />
+          <PhoneShot
+            src={summaryMonthShot}
+            label="Month"
+            alt="The Summary tab on Month: 2,398 calories eaten per day on average, under budget 6 of 8 days, a bar chart of each day's share of its budget with unlogged days shown as stubs, and macro averages against goal."
+            width={186}
+          />
+        </div>
       </div>
       <div class="shot-copy">
         <h3 class="shot-title">Summary of your day/week/month</h3>
@@ -173,6 +195,71 @@ const faqs = [
           <li>Day, week, and month views</li>
           <li>Budget bars include the calories your activity earned</li>
           <li>Macro averages against your goal, over or under</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="shot-row shot-row-alt shot-row--duo">
+      <div class="shot-visual">
+        <div class="shot-strip" tabindex="0" role="group" aria-label="Adding food, and naming a meal">
+          <PhoneShot
+            src={addFoodShot}
+            label="Six ways in"
+            alt="The Add to Breakfast sheet: six cards for From Favorites, Recent foods, Enter manually, Describe or photograph, Scan a barcode, and Search foods."
+            width={216}
+          />
+          <PhoneShot
+            src={mealGroupShot}
+            label="Name a meal"
+            alt="A sheet titled Name this meal, with a meal name field, a Mark as favorite toggle, and a note explaining the selected foods collapse into one row you can expand and quick-add later."
+            width={216}
+          />
+        </div>
+      </div>
+      <div class="shot-copy">
+        <h3 class="shot-title">Add food however is fastest</h3>
+        <p class="shot-body">
+          Every way in sits on one screen. Pick a favorite, re-add something you
+          ate recently, scan a barcode, search by name, type it yourself, or let
+          AI read a photo. Eat the same four things together every morning? Group
+          them into one named meal and add the whole thing next time.
+        </p>
+        <ul class="shot-list">
+          <li>Favorites, recents, barcode, search, manual, or AI</li>
+          <li>Group several foods into one named meal</li>
+          <li>Mark a meal a favorite to quick-add it later</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="shot-row shot-row--duo">
+      <div class="shot-visual">
+        <div class="shot-strip" tabindex="0" role="group" aria-label="Choosing a theme colour, and the app using it">
+          <PhoneShot
+            src={themeSettingsShot}
+            label="Pick a color"
+            alt="The Appearance section of Settings in dark mode, set to Custom, with a primary colour swatch and preview chips showing protein, carbs, fat and ring as shades of green."
+            width={216}
+          />
+          <PhoneShot
+            src={themeTodayShot}
+            label="The whole app follows"
+            alt="The daily log in dark mode with a green theme: 1,835 calories left of 2,500, green calorie ring and macro bars, and a logged breakfast."
+            width={216}
+          />
+        </div>
+      </div>
+      <div class="shot-copy">
+        <h3 class="shot-title">Pick a color, the app follows</h3>
+        <p class="shot-body">
+          Settings has a Colorful preset, or you can choose your own primary
+          color. The calorie ring, the buttons, and the macro bars all become
+          shades of it. Dark mode is there too, and it looks good in both.
+        </p>
+        <ul class="shot-list">
+          <li>Colorful preset, or any color you pick</li>
+          <li>Ring, buttons, and macro bars all follow it</li>
+          <li>Light and dark</li>
         </ul>
       </div>
     </div>
@@ -195,6 +282,30 @@ const faqs = [
           <li>Small and medium Home Screen widgets</li>
           <!--<li>Lock Screen widgets, circular and rectangular</li>-->
           <li>Updates as you log — nothing to refresh</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="shot-row shot-row--pad">
+      <div class="shot-visual">
+        <PhoneShot
+          src={ipadShot}
+          device="pad"
+          alt="Calorie Cownter on iPad: a side rail with Log, Summary and Settings, meals laid out in a grid as Breakfast, Lunch, Dinner and Snacks, and a card on the right showing 1,700 calories left with eaten, earned and budget totals plus macro bars."
+          width={620}
+        />
+      </div>
+      <div class="shot-copy">
+        <h3 class="shot-title">Made for iPad, not stretched to it</h3>
+        <p class="shot-body">
+          On iPad your meals sit in a grid with the day's totals pinned next to
+          them, and the tab bar becomes a side rail. Same diary, same iCloud,
+          just more room to work with.
+        </p>
+        <ul class="shot-list">
+          <li>Meals in a grid, totals always in view</li>
+          <li>Side rail instead of a tab bar</li>
+          <li>Picks up where your iPhone left off</li>
         </ul>
       </div>
     </div>
@@ -477,8 +588,44 @@ const faqs = [
     flex: 0 1 300px;
     display: flex;
     justify-content: center;
+    min-width: 0;
   }
   .shot-copy { flex: 1 1 400px; min-width: 0; }
+
+  /* Rows holding more than one shot need a wider visual column. At these
+     widths every shot in the strip is visible at once on a desktop screen;
+     narrower than that the strip becomes a swipeable carousel. */
+  .shot-row--duo .shot-visual { flex: 1 1 470px; }
+  .shot-row--duo .shot-copy { flex: 1 1 380px; }
+  .shot-row--trio .shot-visual { flex: 1 1 600px; }
+  .shot-row--trio .shot-copy { flex: 1 1 340px; }
+  .shot-row--pad .shot-visual { flex: 1 1 620px; }
+  .shot-row--pad .shot-copy { flex: 1 1 360px; }
+
+  /* Mini carousel: side by side when there's room, swipeable when there isn't.
+     CSS-only, in keeping with the rest of the page (see the FAQ accordion). */
+  .shot-strip {
+    display: flex;
+    gap: 18px;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 var(--gutter);
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .shot-strip::-webkit-scrollbar { display: none; }
+  .shot-strip > :global(*) {
+    flex: none;
+    scroll-snap-align: center;
+  }
+  /* The strip is keyboard-scrollable, so give it a visible focus ring. */
+  .shot-strip:focus-visible {
+    outline: 2px solid var(--action);
+    outline-offset: 6px;
+    border-radius: 8px;
+  }
   .shot-title {
     margin: 0;
     font-family: var(--font-sans);
@@ -610,5 +757,16 @@ const faqs = [
     .shot-row { gap: 36px; margin-top: 44px; }
     /* Keep the image above the copy on narrow screens for both rows. */
     .shot-row-alt { flex-direction: row; }
+    /* Let the carousel run to the screen edges so the next card peeks in and
+       reads as swipeable, while the first card still lines up with the copy. */
+    .shot-visual { width: 100%; }
+    .shot-strip {
+      /* The base rule caps the strip at its column; here it has to escape it. */
+      max-width: none;
+      width: calc(100% + 2 * var(--gutter));
+      margin-inline: calc(-1 * var(--gutter));
+      padding-inline: var(--gutter);
+      scroll-snap-type: x proximity;
+    }
   }
 </style>

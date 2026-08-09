@@ -61,12 +61,27 @@ capture over the same filename and rebuild; nothing else changes.
 
 They must be re-shot whenever the app's visual design changes, or the site
 markets a version that no longer exists. Capture rules that keep them usable:
-mid-day state with real meals logged (an empty day hides the design), light mode,
-and a full-height screenshot — `PhoneShot` adds the bezel, so don't include a
-frame in the capture.
+a mid-day state with real meals logged (an empty day hides the design) and a
+full-height screenshot. `PhoneShot` draws the bezel, so don't include a frame in
+the capture. Pass `device="pad"` for iPad captures, which get a thinner and less
+rounded bezel.
 
-All three are current as of 2026-08-07 (`widgets.png` shows the shipping
-full-bleed brown "Tinted" widgets).
+Shots currently in use, all captured 2026-08-09:
+
+| File | Where it appears |
+|---|---|
+| `today.png` | hero |
+| `summary-day.png`, `summary.png`, `summary-month.png` | Summary strip (Day / Week / Month) |
+| `add-food.png`, `meal-group.png` | "Add food however is fastest" strip |
+| `theme-settings.png`, `theme-today.png` | theming strip (both dark mode, green custom theme) |
+| `widgets.png` | widgets row (the shipping brown "Tinted" widgets) |
+| `ipad.png` | iPad row, landscape |
+
+Rows holding more than one shot use `.shot-strip`, a CSS-only carousel: the
+shots sit side by side at desktop widths and become a scroll-snapped swipe strip
+below 860px, where it also bleeds into the gutter so the next card peeks in. If
+you add a shot to a strip, check the widths still add up — `.shot-row--duo` and
+`.shot-row--trio` are sized so nothing scrolls on desktop.
 
 The palette in `src/styles/global.css` is taken straight from the app's
 `Assets.xcassets` colorsets (warm brown `action`, coral `aiAccent` for the AI
