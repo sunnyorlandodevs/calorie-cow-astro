@@ -15,7 +15,7 @@ const Tag = href ? 'a' : 'span';
 
 <Tag class:list={['wordmark', { 'on-dark': onDark }]} href={href ?? undefined}>
   <img class="wm-badge" src={withBase('/favicon.svg')} alt="" width="34" height="34" />
-  <span class="wm-text">Calorie <span class="wm-accent">Cownter</span></span>
+  <span class="wm-text">Calorie </span> <span class="wm-accent">Cownter</span>
 </Tag>
 
 <style>
@@ -39,4 +39,16 @@ const Tag = href ? 'a' : 'span';
   .wm-text { display: inline-flex; gap: 0; }
   .wm-accent { color: var(--action); margin-left: -4px; }
   .on-dark .wm-accent { color: var(--tan); }
+
+  /* On the narrowest phones the nav row (lockup + CTA + menu button) runs past
+     the screen at full size, so step the lockup down rather than let the page
+     scroll sideways. */
+  @media (max-width: 430px) {
+    .wordmark { font-size: 17px; gap: 8px; }
+    .wm-badge { width: 29px; height: 29px; }
+  }
+  @media (max-width: 380px) {
+    .wordmark { font-size: 15px; gap: 7px; }
+    .wm-badge { width: 26px; height: 26px; }
+  }
 </style>

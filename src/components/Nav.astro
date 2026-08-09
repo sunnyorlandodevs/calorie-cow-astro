@@ -1,9 +1,6 @@
 ---
 import Wordmark from './Wordmark.astro';
 import { APP_STORE_URL, WAITLIST_URL, withBase } from '../config';
-// Before launch the nav CTA goes straight to the waitlist form; after launch it
-// jumps to the hero's App Store badge as before.
-const showWaitlist = APP_STORE_URL == null && WAITLIST_URL != null;
 // Links use root-anchored hrefs (/#features) so they also work from the
 // legal pages, jumping back to the landing sections.
 const links = [
@@ -12,28 +9,60 @@ const links = [
   { label: 'How it works', href: withBase('/#how') },
   { label: 'FAQ', href: withBase('/#faq') },
 ];
+// Before launch the nav CTA goes straight to the waitlist form; after launch it
+// jumps to the hero's App Store badge as before.
+const showWaitlist = APP_STORE_URL == null && WAITLIST_URL != null;
+const ctaHref = showWaitlist ? WAITLIST_URL! : withBase('/#get');
+const ctaAttrs = showWaitlist ? { target: '_blank', rel: 'noopener' } : {};
 ---
 
 <nav>
   <div class="nav-inner">
     <Wordmark href={withBase('/')} />
+
+    <!-- Wide screens: the links sit inline. -->
     <div class="nav-links">
       {links.map(({ label, href }) => <a href={href}>{label}</a>)}
-      {showWaitlist ? (
-        <a class="nav-cta" href={WAITLIST_URL} target="_blank" rel="noopener">
-          <span class="nav-cta-full">Join the waitlist</span>
-          <span class="nav-cta-short">Waitlist</span>
-        </a>
-      ) : (
-        <a class="nav-cta" href={withBase('/#get')}>Get the app</a>
-      )}
+      <a class="nav-cta" href={ctaHref} {...ctaAttrs}>
+        {showWaitlist ? 'Join the waitlist' : 'Get the app'}
+      </a>
+    </div>
+
+    <!-- Narrow screens: the CTA stays put and the rest folds into a menu.
+         <details> means this works with no JavaScript at all. -->
+    <div class="nav-compact">
+      <a class="nav-cta" href={ctaHref} {...ctaAttrs}>
+        {showWaitlist ? 'Waitlist' : 'Get it'}
+      </a>
+      <details class="nav-menu">
+        <summary aria-label="Menu">
+          <svg class="nav-ico nav-ico-open" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+          <svg class="nav-ico nav-ico-close" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        </summary>
+        <div class="nav-panel">
+          {links.map(({ label, href }) => <a href={href}>{label}</a>)}
+        </div>
+      </details>
     </div>
   </div>
 </nav>
 
+<script>
+  // Progressive enhancement only: tapping a link jumps to a section on the same
+  // page, which would otherwise leave the menu covering it. Without this the
+  // menu still opens and closes, it just stays open after you pick something.
+  document.querySelectorAll<HTMLDetailsElement>('.nav-menu').forEach((menu) => {
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('.nav-panel a')) menu.open = false;
+    });
+  });
+</script>
+
 <style>
   nav {
     background: var(--bg);
+    position: relative;
+    z-index: 20;
   }
   .nav-inner {
     max-width: var(--container);
@@ -43,38 +72,110 @@ const links = [
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    flex-wrap: wrap;
   }
   .nav-links {
     display: inline-flex;
     align-items: center;
     gap: 26px;
+  }
+  .nav-links a,
+  .nav-panel a {
+    color: var(--muted);
+    text-decoration: none;
     font-family: var(--font-mono);
     font-weight: 500;
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-  }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
+    white-space: nowrap;
     transition: color 0.2s ease;
   }
-  .nav-links a:hover { color: var(--action); }
+  .nav-links a:hover,
+  .nav-panel a:hover { color: var(--action); }
+
   .nav-cta {
     background: var(--action);
     color: #fff !important;
     border-radius: 999px;
     padding: 9px 18px;
     letter-spacing: 0.06em;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease;
   }
   .nav-cta:hover { background: var(--deep); }
-  .nav-cta { white-space: nowrap; }
-  /* The full label wraps inside the pill on narrow screens — swap in a short one. */
-  .nav-cta-short { display: none; }
-  @media (max-width: 560px) {
-    .nav-links { gap: 16px; font-size: 11px; }
-    .nav-cta-full { display: none; }
-    .nav-cta-short { display: inline; }
+
+  /* ---------- compact / hamburger ---------- */
+  .nav-compact {
+    display: none;
+    align-items: center;
+    gap: 12px;
+  }
+  .nav-menu { position: relative; }
+  .nav-menu summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1.5px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+  }
+  .nav-menu summary::-webkit-details-marker { display: none; }
+  .nav-menu summary:focus-visible {
+    outline: 2px solid var(--action);
+    outline-offset: 2px;
+  }
+  .nav-ico-close { display: none; }
+  .nav-menu[open] .nav-ico-open { display: none; }
+  .nav-menu[open] .nav-ico-close { display: block; }
+
+  .nav-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 208px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px;
+    border-radius: 16px;
+    border: 1.5px solid var(--rule);
+    background: var(--surface);
+    box-shadow: 0 16px 34px rgba(45, 32, 18, 0.16);
+  }
+  .nav-panel a {
+    padding: 12px 14px;
+    border-radius: 10px;
+    color: var(--ink);
+  }
+  .nav-panel a:hover { background: var(--soft); color: var(--action); }
+
+  /* The inline row (wordmark + four links + CTA) needs about 845px. Below that
+     it has nowhere to go, so hand over to the hamburger before it squashes. */
+  @media (max-width: 880px) {
+    .nav-links { display: none; }
+    .nav-compact { display: inline-flex; }
+    .nav-inner { padding: 20px var(--gutter); }
+  }
+  @media (max-width: 430px) {
+    .nav-inner { gap: 10px; }
+    .nav-compact { gap: 8px; }
+    .nav-cta { padding: 8px 13px; font-size: 11px; }
+    .nav-menu summary { width: 38px; height: 38px; }
+  }
+  @media (max-width: 380px) {
+    .nav-inner { gap: 8px; }
+    .nav-compact { gap: 6px; }
+    .nav-cta { padding: 7px 11px; font-size: 10px; letter-spacing: 0.04em; }
+    .nav-panel { min-width: 0; width: max-content; }
   }
 </style>

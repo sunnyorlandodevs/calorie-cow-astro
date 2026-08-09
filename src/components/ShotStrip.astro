@@ -1,0 +1,106 @@
+---
+/**
+ * A group of related screenshots: side by side where there's room, a
+ * scroll-snapped swipe strip where there isn't.
+ *
+ * It also wires the shots together, so opening one full size gives you arrows
+ * to step through the rest of the group without closing the lightbox.
+ */
+import PhoneShot from './PhoneShot.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Shot {
+  src: ImageMetadata;
+  alt: string;
+  label?: string;
+}
+
+interface Props {
+  shots: Shot[];
+  /** Describes the group for screen readers, e.g. "Summary screens". */
+  ariaLabel: string;
+  width?: number;
+}
+
+const { shots, ariaLabel, width = 216 } = Astro.props;
+
+// Same id scheme PhoneShot uses on its own; computed here so each shot can
+// point at its neighbours. The built asset path carries a content hash.
+const idFor = (s: Shot) => `shot-${s.src.src.replace(/[^a-zA-Z0-9]/g, '').slice(-24)}`;
+const ids = shots.map(idFor);
+// Wrap around, so the arrows never dead-end mid-group.
+const at = (i: number) => ids[(i + ids.length) % ids.length];
+---
+
+<div class="shot-strip" tabindex="0" role="group" aria-label={ariaLabel}>
+  {shots.map((shot, i) => (
+    <PhoneShot
+      src={shot.src}
+      alt={shot.alt}
+      label={shot.label}
+      width={width}
+      id={ids[i]}
+      prevId={shots.length > 1 ? at(i - 1) : undefined}
+      nextId={shots.length > 1 ? at(i + 1) : undefined}
+      position={shots.length > 1 ? `${i + 1} of ${shots.length}` : undefined}
+    />
+  ))}
+</div>
+
+<script>
+  // The arrows are declarative (popovertarget), but a popover opened from a
+  // button *inside* another popover counts as nested, so the one you came from
+  // stays open behind it. Close it first; the button's own default action then
+  // opens the neighbour. Without JS you still get every shot, just stacked.
+  document.addEventListener('click', (event) => {
+    const arrow = (event.target as HTMLElement).closest('.lightbox-nav');
+    if (!arrow) return;
+    const current = arrow.closest<HTMLElement & { hidePopover(): void }>('[popover]');
+    current?.hidePopover();
+  });
+</script>
+
+<style>
+  /* Mini carousel: side by side when there's room, swipeable when there isn't.
+     CSS-only, in keeping with the rest of the page (see the FAQ accordion).
+
+     The padding is what stops `overflow-x` slicing the shots' drop shadows into
+     a hard-edged rectangle; the matching negative margin keeps the strip
+     sitting where it would have without it. */
+  .shot-strip {
+    display: flex;
+    gap: 18px;
+    max-width: 100%;
+    padding: 24px 24px 28px;
+    margin: -24px -24px -28px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 24px;
+    scrollbar-width: none;
+  }
+  .shot-strip::-webkit-scrollbar { display: none; }
+  .shot-strip > :global(*) {
+    flex: none;
+    scroll-snap-align: center;
+  }
+  /* The strip is keyboard-scrollable, so give it a visible focus ring. */
+  .shot-strip:focus-visible {
+    outline: 2px solid var(--action);
+    outline-offset: -18px;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 860px) {
+    /* Run to the screen edges so the next card peeks in and reads as
+       swipeable, while the first card still lines up with the copy. */
+    .shot-strip {
+      max-width: none;
+      width: calc(100% + 2 * var(--gutter));
+      padding-inline: var(--gutter);
+      margin-inline: calc(-1 * var(--gutter));
+      scroll-padding: 0 var(--gutter);
+      scroll-snap-type: x proximity;
+    }
+  }
+</style>

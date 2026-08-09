@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhoneShot from '../components/PhoneShot.astro';
+import ShotStrip from '../components/ShotStrip.astro';
 import { APP_STORE_URL, WAITLIST_URL, PRO } from '../config';
 
 // Real device captures, not mockups. See NOTES in the README for how to refresh
@@ -165,26 +166,27 @@ const faqs = [
 
     <div class="shot-row shot-row--trio">
       <div class="shot-visual">
-        <div class="shot-strip" tabindex="0" role="group" aria-label="Summary screens: day, week and month">
-          <PhoneShot
-            src={summaryDayShot}
-            label="Day"
-            alt="The Summary tab on Day: 665 calories eaten today, 1,835 left of a 2,500 budget, a breakdown of which meals it came from, and today's macros against goal."
-            width={186}
-          />
-          <PhoneShot
-            src={summaryShot}
-            label="Week"
-            alt="The Summary tab on Week: 2,207 calories eaten per day on average, under budget 3 of 4 days, a bar chart comparing calories eaten against the budget for each day, and macro averages against goal."
-            width={186}
-          />
-          <PhoneShot
-            src={summaryMonthShot}
-            label="Month"
-            alt="The Summary tab on Month: 2,398 calories eaten per day on average, under budget 6 of 8 days, a bar chart of each day's share of its budget with unlogged days shown as stubs, and macro averages against goal."
-            width={186}
-          />
-        </div>
+        <ShotStrip
+          ariaLabel="Summary screens: day, week and month"
+          width={186}
+          shots={[
+            {
+              src: summaryDayShot,
+              label: 'Day',
+              alt: "The Summary tab on Day: 665 calories eaten today, 1,835 left of a 2,500 budget, a breakdown of which meals it came from, and today's macros against goal.",
+            },
+            {
+              src: summaryShot,
+              label: 'Week',
+              alt: 'The Summary tab on Week: 2,207 calories eaten per day on average, under budget 3 of 4 days, a bar chart comparing calories eaten against the budget for each day, and macro averages against goal.',
+            },
+            {
+              src: summaryMonthShot,
+              label: 'Month',
+              alt: "The Summary tab on Month: 2,398 calories eaten per day on average, under budget 6 of 8 days, a bar chart of each day's share of its budget with unlogged days shown as stubs, and macro averages against goal.",
+            },
+          ]}
+        />
       </div>
       <div class="shot-copy">
         <h3 class="shot-title">Summary of your day/week/month</h3>
@@ -201,20 +203,21 @@ const faqs = [
 
     <div class="shot-row shot-row-alt shot-row--duo">
       <div class="shot-visual">
-        <div class="shot-strip" tabindex="0" role="group" aria-label="Adding food, and naming a meal">
-          <PhoneShot
-            src={addFoodShot}
-            label="Six ways in"
-            alt="The Add to Breakfast sheet: six cards for From Favorites, Recent foods, Enter manually, Describe or photograph, Scan a barcode, and Search foods."
-            width={216}
-          />
-          <PhoneShot
-            src={mealGroupShot}
-            label="Name a meal"
-            alt="A sheet titled Name this meal, with a meal name field, a Mark as favorite toggle, and a note explaining the selected foods collapse into one row you can expand and quick-add later."
-            width={216}
-          />
-        </div>
+        <ShotStrip
+          ariaLabel="Adding food, and naming a meal"
+          shots={[
+            {
+              src: addFoodShot,
+              label: 'Six ways in',
+              alt: 'The Add to Breakfast sheet: six cards for From Favorites, Recent foods, Enter manually, Describe or photograph, Scan a barcode, and Search foods.',
+            },
+            {
+              src: mealGroupShot,
+              label: 'Name a meal',
+              alt: 'A sheet titled Name this meal, with a meal name field, a Mark as favorite toggle, and a note explaining the selected foods collapse into one row you can expand and quick-add later.',
+            },
+          ]}
+        />
       </div>
       <div class="shot-copy">
         <h3 class="shot-title">Add food however is fastest</h3>
@@ -234,20 +237,21 @@ const faqs = [
 
     <div class="shot-row shot-row--duo">
       <div class="shot-visual">
-        <div class="shot-strip" tabindex="0" role="group" aria-label="Choosing a theme colour, and the app using it">
-          <PhoneShot
-            src={themeSettingsShot}
-            label="Pick a color"
-            alt="The Appearance section of Settings in dark mode, set to Custom, with a primary colour swatch and preview chips showing protein, carbs, fat and ring as shades of green."
-            width={216}
-          />
-          <PhoneShot
-            src={themeTodayShot}
-            label="The whole app follows"
-            alt="The daily log in dark mode with a green theme: 1,835 calories left of 2,500, green calorie ring and macro bars, and a logged breakfast."
-            width={216}
-          />
-        </div>
+        <ShotStrip
+          ariaLabel="Choosing a theme color, and the app using it"
+          shots={[
+            {
+              src: themeSettingsShot,
+              label: 'Pick a color',
+              alt: 'The Appearance section of Settings in dark mode, set to Custom, with a primary color swatch and preview chips showing protein, carbs, fat and ring as shades of green.',
+            },
+            {
+              src: themeTodayShot,
+              label: 'The whole app follows',
+              alt: 'The daily log in dark mode with a green theme: 1,835 calories left of 2,500, green calorie ring and macro bars, and a logged breakfast.',
+            },
+          ]}
+        />
       </div>
       <div class="shot-copy">
         <h3 class="shot-title">Pick a color, the app follows</h3>
@@ -491,12 +495,14 @@ const faqs = [
     display: flex;
     justify-content: center;
     position: relative;
-    min-width: 300px;
+    min-width: 0;
   }
+  /* Decorative, and sized in vw so it can't push the page sideways on a small
+     phone the way a fixed 380px circle did. */
   .hero-halo {
     position: absolute;
-    width: 380px;
-    height: 380px;
+    width: min(380px, 78vw);
+    height: min(380px, 78vw);
     border-radius: 50%;
     background: var(--soft);
     top: 50%;
@@ -537,7 +543,9 @@ const faqs = [
   /* ---------- FEATURES ---------- */
   .feature-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* min() so the 320px track can still shrink on a narrower screen instead
+       of forcing the page to scroll sideways. */
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
     gap: 20px;
     margin-top: 48px;
   }
@@ -592,40 +600,15 @@ const faqs = [
   }
   .shot-copy { flex: 1 1 400px; min-width: 0; }
 
-  /* Rows holding more than one shot need a wider visual column. At these
-     widths every shot in the strip is visible at once on a desktop screen;
-     narrower than that the strip becomes a swipeable carousel. */
-  .shot-row--duo .shot-visual { flex: 1 1 470px; }
+  /* Rows holding more than one shot need a wider visual column. These include
+     the 48px of horizontal padding ShotStrip adds to keep drop shadows from
+     being clipped, so every shot still sits side by side on a desktop screen. */
+  .shot-row--duo .shot-visual { flex: 1 1 500px; }
   .shot-row--duo .shot-copy { flex: 1 1 380px; }
-  .shot-row--trio .shot-visual { flex: 1 1 600px; }
+  .shot-row--trio .shot-visual { flex: 1 1 646px; }
   .shot-row--trio .shot-copy { flex: 1 1 340px; }
   .shot-row--pad .shot-visual { flex: 1 1 620px; }
   .shot-row--pad .shot-copy { flex: 1 1 360px; }
-
-  /* Mini carousel: side by side when there's room, swipeable when there isn't.
-     CSS-only, in keeping with the rest of the page (see the FAQ accordion). */
-  .shot-strip {
-    display: flex;
-    gap: 18px;
-    max-width: 100%;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding: 0 var(--gutter);
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-  .shot-strip::-webkit-scrollbar { display: none; }
-  .shot-strip > :global(*) {
-    flex: none;
-    scroll-snap-align: center;
-  }
-  /* The strip is keyboard-scrollable, so give it a visible focus ring. */
-  .shot-strip:focus-visible {
-    outline: 2px solid var(--action);
-    outline-offset: 6px;
-    border-radius: 8px;
-  }
   .shot-title {
     margin: 0;
     font-family: var(--font-sans);
@@ -757,16 +740,6 @@ const faqs = [
     .shot-row { gap: 36px; margin-top: 44px; }
     /* Keep the image above the copy on narrow screens for both rows. */
     .shot-row-alt { flex-direction: row; }
-    /* Let the carousel run to the screen edges so the next card peeks in and
-       reads as swipeable, while the first card still lines up with the copy. */
     .shot-visual { width: 100%; }
-    .shot-strip {
-      /* The base rule caps the strip at its column; here it has to escape it. */
-      max-width: none;
-      width: calc(100% + 2 * var(--gutter));
-      margin-inline: calc(-1 * var(--gutter));
-      padding-inline: var(--gutter);
-      scroll-snap-type: x proximity;
-    }
   }
 </style>

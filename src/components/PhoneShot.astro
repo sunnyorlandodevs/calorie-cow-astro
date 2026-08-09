@@ -31,6 +31,11 @@ interface Props {
   eager?: boolean;
   /** Only needed if the same screenshot is used twice on one page. */
   id?: string;
+  /** Set by ShotStrip so the enlarged view can step through the group. */
+  prevId?: string;
+  nextId?: string;
+  /** e.g. "2 of 3", announced next to the arrows. */
+  position?: string;
   class?: string;
 }
 
@@ -42,6 +47,9 @@ const {
   label,
   eager = false,
   id,
+  prevId,
+  nextId,
+  position,
   class: className,
 } = Astro.props;
 
@@ -80,6 +88,21 @@ const zoomWidth = device === 'pad' ? 1400 : 760;
 
 <div class="lightbox" id={popId} popover>
   <Image class="lightbox-img" src={src} alt={alt} width={zoomWidth} loading="lazy" />
+
+  {/* Opening another auto popover closes this one, so stepping through a group
+      needs no script — the arrow just points at the neighbour's id. */}
+  {prevId && (
+    <button class="lightbox-nav lightbox-prev" popovertarget={prevId} aria-label="Previous screenshot">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+  )}
+  {nextId && (
+    <button class="lightbox-nav lightbox-next" popovertarget={nextId} aria-label="Next screenshot">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 4l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+  )}
+  {position && <p class="lightbox-count">{label ? `${label} · ${position}` : position}</p>}
+
   <button
     class="lightbox-close"
     popovertarget={popId}
@@ -123,8 +146,11 @@ const zoomWidth = device === 'pad' ? 1400 : 760;
     display: block;
     width: 100%;
     background: #0f0d0b;
+    /* Kept light on purpose: two soft, low-opacity layers read as depth,
+       where one heavy layer reads as a grey box behind the phone. */
     box-shadow:
-      0 30px 60px rgba(30, 20, 10, 0.28),
+      0 2px 6px rgba(45, 32, 18, 0.08),
+      0 14px 30px rgba(45, 32, 18, 0.11),
       inset 0 2px 0 rgba(255, 255, 255, 0.06);
   }
   .phone-screen {
@@ -195,15 +221,12 @@ const zoomWidth = device === 'pad' ? 1400 : 760;
     border-radius: 22px;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
   }
-  .lightbox-close {
+  .lightbox-close,
+  .lightbox-nav {
     position: fixed;
-    top: 18px;
-    right: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
     border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.14);
@@ -211,10 +234,59 @@ const zoomWidth = device === 'pad' ? 1400 : 760;
     cursor: pointer;
     transition: background 0.2s ease;
   }
-  .lightbox-close:hover { background: rgba(255, 255, 255, 0.26); }
-  .lightbox-close:focus-visible {
+  .lightbox-close:hover,
+  .lightbox-nav:hover { background: rgba(255, 255, 255, 0.28); }
+  .lightbox-close:focus-visible,
+  .lightbox-nav:focus-visible {
     outline: 2px solid #f4ede4;
     outline-offset: 3px;
+  }
+  .lightbox-close {
+    top: 18px;
+    right: 18px;
+    width: 42px;
+    height: 42px;
+  }
+  .lightbox-nav {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+  }
+  .lightbox-prev { left: 18px; }
+  .lightbox-next { right: 18px; }
+  .lightbox-count {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #f4ede4;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* On a phone the arrows would sit on top of the image, so drop them to the
+     bottom next to the counter, where thumbs are anyway. */
+  @media (max-width: 620px) {
+    .lightbox-img { max-height: 78vh; }
+    .lightbox-nav {
+      top: auto;
+      bottom: 16px;
+      transform: none;
+      width: 46px;
+      height: 46px;
+    }
+    .lightbox-prev { left: 22px; }
+    .lightbox-next { right: 22px; }
+    .lightbox-count { bottom: 27px; }
   }
 
   /* Fade + lift in. Skipped silently where unsupported. */

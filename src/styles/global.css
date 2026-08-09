@@ -181,3 +181,9 @@ a { color: inherit; }
   :root { --gutter: 22px; }
   .section { padding: 68px 0; }
 }
+
+/* Very small phones (iPhone SE and older). Tightening the gutter buys the nav
+   row the width it needs so the page never scrolls sideways. */
+@media (max-width: 380px) {
+  :root { --gutter: 16px; }
+}
