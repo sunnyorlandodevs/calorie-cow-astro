@@ -24,11 +24,11 @@ const proLine = PRO.price
 const faqs = [
   {
     q: 'Is it free?',
-    a: `Mostly, yes. Logging, barcode scanning, widgets, and Apple Health are all free, with no ads. AI photo scans are free ${PRO.freeScansPerDay} times a day — ${proLine}`,
+    a: `Mostly, yes. Logging, barcode scanning, widgets, and Apple Health are all free, with no ads. AI photo scans are free ${PRO.freeScansPerDay} times a day. ${proLine}. As AI continous to develop, the costs to operate will decrease, and we may adjust the Pro plan accordingly to save you money.`,
   },
   {
     q: 'Do I need an account?',
-    a: 'No. Open the app and start logging. Sign in with Apple is only needed if you want the AI photo scans.',
+    a: 'No. Open the app and start logging. Sign in with Apple is only needed if you want the AI photo scans or use the AI description feature.',
   },
   {
     q: 'Where does my data live?',
@@ -52,7 +52,7 @@ const faqs = [
   },
   {
     q: 'Is there an Android version?',
-    a: "No, and there aren't plans for one. Calorie Cownter leans hard on Apple-only things — iCloud sync, Apple Health, widgets, Sign in with Apple — and doing that well is the whole point.",
+    a: "Unfortunately, no, and there aren't any current plans for one. Calorie Cownter leans hard on Apple-only things, such as iCloud sync, Apple Health, widgets, Sign in with Apple. In the future though, once the iOS app is at a stable place, we may explore an Android version.",
   },
 ];
 ---
@@ -64,9 +64,7 @@ const faqs = [
       <p class="hero-kicker">For iPhone &amp; iPad</p>
       <h1 class="hero-title">Count calories without having a <span>cow</span>.</h1>
       <p class="hero-lede">
-        Log a meal in seconds, scan a barcode, or snap a photo and let AI do the
-        math. No account, no ads — your food diary lives in your own iCloud, not
-        on our servers.
+        Download the app and start logging your meals in seconds. No account, no ads. Just a simple food diary that syncs across your devices and keeps your data private.
       </p>
 
       <div id="get" class="hero-cta">
@@ -91,7 +89,7 @@ const faqs = [
         )}
       </div>
       {showWaitlist && (
-        <p class="hero-note">One email when it lands on the App Store. Nothing else.</p>
+        <p class="hero-note">Join to get notified once it gets to the app store!</p>
       )}
 
       <div class="hero-points">
@@ -116,22 +114,22 @@ const faqs = [
   <div id="features" class="band-soft">
     <div class="section">
       <p class="kicker">What you get</p>
-      <h2 class="h-section h-narrow">Everything you need to log a meal — and nothing you don't.</h2>
+      <h2 class="h-section h-narrow">Everything you need to log a meal.</h2>
       <div class="feature-grid">
         <article class="feature">
           <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13.5 3.5l3 3L7 16H4v-3l9.5-9.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M11.5 5.5l3 3" stroke="currentColor" stroke-width="1.8"></path></svg></span>
           <h3 class="feature-title">Log anything, fast</h3>
-          <p class="feature-body">Breakfast, lunch, dinner, or the 11 pm snack — type it in and it's saved. No sign-up, no setup wizard.</p>
+          <p class="feature-body">Breakfast, lunch, dinner, or the 11 pm snack.</p>
         </article>
         <article class="feature">
           <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 6V3.5A1.5 1.5 0 0 1 3.5 2H6M14 2h2.5A1.5 1.5 0 0 1 18 3.5V6M18 14v2.5a1.5 1.5 0 0 1-1.5 1.5H14M6 18H3.5A1.5 1.5 0 0 1 2 16.5V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><path d="M6 7v6M9.5 7v6M13 7v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
           <h3 class="feature-title">Scan a barcode, or search</h3>
-          <p class="feature-body">Point your camera at a package, or search a database of over a million foods. Still no account required.</p>
+          <p class="feature-body">Point your camera at a package, or search a database of over a million foods.</p>
         </article>
         <article class="feature feature-ai">
           <span class="feature-icon feature-icon-ai"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 4.6L16.5 8l-4.7 1.4L10 14l-1.8-4.6L3.5 8l4.7-1.4L10 2z" fill="currentColor"></path><path d="M16 13l.9 2.1L19 16l-2.1.9L16 19l-.9-2.1L13 16l2.1-.9L16 13z" fill="currentColor"></path></svg></span>
           <h3 class="feature-title">Snap a photo, AI does the math</h3>
-          <p class="feature-body">Photograph your plate or just describe it — AI estimates the calories and macros for the whole meal at once. <b>Three free scans a day</b> with Sign in with Apple.</p>
+          <p class="feature-body">Photograph your plate or just describe it, our AI will figure out the calories and macros for you. <b>Three free scans a day</b> with Sign in with Apple.</p>
           <span class="feature-pro">{proLine}</span>
         </article>
         <article class="feature">
@@ -156,7 +154,7 @@ const faqs = [
   <!-- ============ SCREENSHOT SHOWCASE ============ -->
   <div id="look" class="section">
     <p class="kicker">A look inside</p>
-    <h2 class="h-section h-narrower">Warm, quiet, and honest about your day.</h2>
+    <h2 class="h-section">Warm, quiet, and honest about your day.</h2>
 
     <div class="shot-row">
       <div class="shot-visual">
@@ -167,11 +165,9 @@ const faqs = [
         />
       </div>
       <div class="shot-copy">
-        <h3 class="shot-title">See the week in plain language</h3>
+        <h3 class="shot-title">Summary of your day/week/month</h3>
         <p class="shot-body">
-          No spreadsheet, no lecture. Summary tells you the number that matters —
-          "under budget 3 of 4 days" — then shows the chart behind it. Days you
-          haven't logged stay faded instead of counting as zero.
+          See your tracked calories and macros at a glance, with options to view your day, week, or month. The app shows you how your activity from Apple Health has raised your budget, and how your macros compare to your goals.
         </p>
         <ul class="shot-list">
           <li>Day, week, and month views</li>
@@ -193,12 +189,11 @@ const faqs = [
         <h3 class="shot-title">Your day, one glance away</h3>
         <p class="shot-body">
           Put the number where you'll actually see it. The small widget is just
-          calories left; the medium one spells out your macros. Both sit on the
-          Lock Screen too, so checking in costs you a glance instead of a tap.
+          calories left; the medium one spells out your macros.
         </p>
         <ul class="shot-list">
           <li>Small and medium Home Screen widgets</li>
-          <li>Lock Screen widgets, circular and rectangular</li>
+          <!--<li>Lock Screen widgets, circular and rectangular</li>-->
           <li>Updates as you log — nothing to refresh</li>
         </ul>
       </div>
@@ -211,9 +206,7 @@ const faqs = [
       <p class="kicker kicker-on-dark">Private by design</p>
       <h2 class="h-section privacy-title">Your food diary is yours. We literally can't read it.</h2>
       <p class="privacy-lede">
-        Not a policy promise — a design decision. There's no account to create
-        and no copy of your diary on our servers, because there's nowhere for it
-        to go but your own iCloud.
+        Calorie Cownter is built to keep your data private. Your diary lives in your iCloud, and your Health data never leaves your phone. We don't store or sell anything. Our goal is to make a great app, not to make money off your data.
       </p>
       <div class="privacy-grid">
         <div class="privacy-item">
@@ -263,7 +256,7 @@ const faqs = [
   <div id="faq" class="band-soft">
     <div class="faq-wrap">
       <p class="kicker">FAQ</p>
-      <h2 class="h-section faq-heading">Fair questions.</h2>
+      <h2 class="h-section faq-heading">Questions</h2>
       {faqs.map((f, i) => (
         <details name="faq" open={i === 0} class="faq-item">
           <summary>
