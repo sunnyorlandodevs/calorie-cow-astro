@@ -31,6 +31,19 @@ export const WAITLIST_URL: string | null = 'https://forms.gle/4v8sgMYHDQ2J4smc7'
 // Connect product is final; while it is null the site describes Pro without
 // quoting a number, so we can never show a price that disagrees with Apple's.
 // See ../CaloriePanda/docs/app-store/03-subscription.md.
+// Umami analytics for this website only — never the app. It's cookieless and
+// collects no personal data, so it needs no consent banner, but it is still
+// analytics: the privacy copy on /privacy and the landing page says so, and
+// must keep saying so while this is set. Set to null to remove it.
+//
+// `domains` limits reporting to the live site, so localhost and any GitHub
+// Pages preview URL don't land in the stats.
+export const UMAMI: { src: string; websiteId: string; domains: string } | null = {
+  src: 'https://cloud.umami.is/script.js',
+  websiteId: '2438b66d-242c-41a6-9b24-427c93d5388b',
+  domains: 'caloriecownter.com',
+};
+
 export const PRO = {
   name: 'Calorie Cow Pro',
   freeScansPerDay: 3,

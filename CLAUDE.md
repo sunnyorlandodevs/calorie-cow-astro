@@ -103,7 +103,11 @@ copy on the landing page / FAQ), keep them true to the verified flows:
 - **Stays on device / in the user's own iCloud**: the entire food diary
   (SwiftData + CloudKit private DB) and all Apple Health data (only a local
   "connected" flag exists).
-- **No ads, no third-party analytics/tracking** in the app or on this site.
+- **No ads, and no analytics or tracking in the app.** This *website* is the one
+  exception: it loads Umami (`UMAMI` in `config.ts`), which is cookieless and
+  collects no personal data. If you ever remove it, or add anything heavier,
+  the claims on `/privacy` ("No ads or tracking") and in the landing page's
+  privacy band must change to match — they currently describe Umami by name.
 
 Both legal pages carry a visible "Draft — pending legal review" banner and
 `[DATE PLACEHOLDER]` / `[JURISDICTION PLACEHOLDER]` markers until Marco fills
