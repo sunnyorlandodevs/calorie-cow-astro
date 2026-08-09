@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhoneShot from '../components/PhoneShot.astro';
-import { APP_STORE_URL, PRO } from '../config';
+import { APP_STORE_URL, WAITLIST_URL, PRO } from '../config';
 
 // Real device captures, not mockups. See NOTES in the README for how to refresh
 // them (they must be re-shot whenever the app's visual design changes).
@@ -10,6 +10,8 @@ import summaryShot from '../assets/screenshots/summary.png';
 import widgetsShot from '../assets/screenshots/widgets.png';
 
 const isLive = APP_STORE_URL != null;
+// Before launch the waitlist is the CTA; after launch the App Store link is.
+const showWaitlist = !isLive && WAITLIST_URL != null;
 
 // Pro is described without a number until the App Store product is final —
 // PRO.price stays null so the site can never contradict Apple's price.
@@ -36,6 +38,14 @@ const faqs = [
     q: 'What happens to photos I scan?',
     a: "A photo is analyzed to estimate nutrition, then discarded. We don't store it.",
   },
+  ...(showWaitlist
+    ? [
+        {
+          q: 'When can I get it?',
+          a: "Soon — it's finished and going through App Store review. Join the waitlist and you'll get one email the day it's out!",
+        },
+      ]
+    : []),
   {
     q: 'Does it work on iPad?',
     a: 'Yes — iPad gets a layout built for the bigger screen, not a stretched phone app. Everything syncs through your iCloud, so your diary is the same on both.',
@@ -60,6 +70,12 @@ const faqs = [
       </p>
 
       <div id="get" class="hero-cta">
+        {showWaitlist && (
+          <a class="waitlist" href={WAITLIST_URL} target="_blank" rel="noopener">
+            Join the waitlist
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+        )}
         {isLive ? (
           <a class="appstore appstore-live" href={APP_STORE_URL}>
             <span class="appstore-top">Download on the</span>
@@ -73,8 +89,10 @@ const faqs = [
             <span class="appstore-bottom">App Store</span>
           </span>
         )}
-        {!isLive && <span class="hero-note">Launching soon on iOS</span>}
       </div>
+      {showWaitlist && (
+        <p class="hero-note">One email when it lands on the App Store. Nothing else.</p>
+      )}
 
       <div class="hero-points">
         <span><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11 12 3.5" stroke="#664428" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>No account needed</span>
@@ -326,7 +344,33 @@ const faqs = [
     cursor: default;
   }
   .appstore-soon .appstore-top { color: var(--muted); }
-  .hero-note { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--muted); }
+  .waitlist {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--action);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 17px;
+    padding: 17px 28px;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .waitlist:hover {
+    background: var(--deep);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(102, 68, 40, 0.26);
+  }
+  .waitlist svg { flex: none; }
+  .hero-note {
+    margin: 14px 0 0;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--muted);
+  }
   .hero-points {
     margin-top: 30px;
     display: flex;

@@ -19,6 +19,13 @@ export const SITE = {
 // null keeps both badges non-clickable ("Coming soon") on purpose.
 export const APP_STORE_URL: string | null = null;
 
+// The waitlist is the site's only real call to action until the app ships, so
+// it is the primary button in the hero and footer while APP_STORE_URL is null.
+// Setting APP_STORE_URL hides the waitlist automatically — the two never show
+// together, because "download it" beats "wait for it". Set this to null to drop
+// the waitlist without waiting for launch.
+export const WAITLIST_URL: string | null = 'https://forms.gle/4v8sgMYHDQ2J4smc7';
+
 // Calorie Cow Pro — the optional subscription for unlimited AI photo scans.
 // Everything else in the app is free. `price` stays null until the App Store
 // Connect product is final; while it is null the site describes Pro without

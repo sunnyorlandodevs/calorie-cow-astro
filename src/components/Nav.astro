@@ -1,6 +1,9 @@
 ---
 import Wordmark from './Wordmark.astro';
-import { withBase } from '../config';
+import { APP_STORE_URL, WAITLIST_URL, withBase } from '../config';
+// Before launch the nav CTA goes straight to the waitlist form; after launch it
+// jumps to the hero's App Store badge as before.
+const showWaitlist = APP_STORE_URL == null && WAITLIST_URL != null;
 // Links use root-anchored hrefs (/#features) so they also work from the
 // legal pages, jumping back to the landing sections.
 const links = [
@@ -16,7 +19,14 @@ const links = [
     <Wordmark href={withBase('/')} />
     <div class="nav-links">
       {links.map(({ label, href }) => <a href={href}>{label}</a>)}
-      <a class="nav-cta" href={withBase('/#get')}>Get the app</a>
+      {showWaitlist ? (
+        <a class="nav-cta" href={WAITLIST_URL} target="_blank" rel="noopener">
+          <span class="nav-cta-full">Join the waitlist</span>
+          <span class="nav-cta-short">Waitlist</span>
+        </a>
+      ) : (
+        <a class="nav-cta" href={withBase('/#get')}>Get the app</a>
+      )}
     </div>
   </div>
 </nav>
@@ -59,7 +69,12 @@ const links = [
     letter-spacing: 0.06em;
   }
   .nav-cta:hover { background: var(--deep); }
+  .nav-cta { white-space: nowrap; }
+  /* The full label wraps inside the pill on narrow screens — swap in a short one. */
+  .nav-cta-short { display: none; }
   @media (max-width: 560px) {
     .nav-links { gap: 16px; font-size: 11px; }
+    .nav-cta-full { display: none; }
+    .nav-cta-short { display: inline; }
   }
 </style>

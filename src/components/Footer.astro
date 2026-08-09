@@ -1,18 +1,27 @@
 ---
-import { SITE, APP_STORE_URL, withBase } from '../config';
+import { SITE, APP_STORE_URL, WAITLIST_URL, withBase } from '../config';
 const year = new Date().getFullYear();
 const isLive = APP_STORE_URL != null;
+// Before launch the waitlist is the CTA; after launch the App Store link is.
+const showWaitlist = !isLive && WAITLIST_URL != null;
 ---
 
 <footer>
   <div class="footer-inner">
     <h2 class="footer-cta">Ready to start cownting?</h2>
     <p class="footer-lede">
-      Calorie Cownter is a small, independent app. If something's broken or you
-      have an idea, I'd love to hear it.
+      {showWaitlist
+        ? "Calorie Cownter is a small, independent app, and it's almost ready. Leave your email and I'll tell you the day it's out."
+        : "Calorie Cownter is a small, independent app. If something's broken or you have an idea, I'd love to hear it."}
     </p>
 
     <div class="footer-actions">
+      {showWaitlist && (
+        <a class="waitlist" href={WAITLIST_URL} target="_blank" rel="noopener">
+          Join the waitlist
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+      )}
       {isLive ? (
         <a class="appstore" href={APP_STORE_URL}>
           <span class="appstore-top">Download on the</span>
@@ -99,6 +108,25 @@ const isLive = APP_STORE_URL != null;
     cursor: default;
   }
   .appstore.is-soon .appstore-top { color: var(--on-dark-muted); }
+  .waitlist {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--on-dark);
+    color: var(--dark);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 17px;
+    padding: 17px 28px;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .waitlist:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+  }
+  .waitlist svg { flex: none; }
   .footer-email {
     color: var(--tan);
     font-family: var(--font-sans);
