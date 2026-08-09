@@ -4,8 +4,12 @@
 //   favicon.svg          — vector icon, rounded square + gradient background
 //   favicon-96.png       — PNG fallback for browsers without SVG favicon support
 //   apple-touch-icon.png — 180×180 full-bleed square (iOS applies its own mask)
-//   og-default.png       — 1200×630 social-preview card (icon on the dark band)
 // Run from the repo root: node scripts/generate-icons.mjs
+//
+// NOT generated: public/og-cover.png, the 1200×630 social-share card. That one
+// is hand-made art (the cow next to a real screenshot) and is checked in as-is.
+// This script used to build a plain icon-on-a-dark-band card; it doesn't
+// anymore, so re-running it can't overwrite the good one.
 import { readFile, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 
@@ -15,8 +19,6 @@ const ART_PATH = new URL('../AppIcon.icon/Assets/AppIcon 4.svg', import.meta.url
 // sRGB — close enough for these dark browns).
 const GRADIENT_TOP = '#3B1F0E';
 const GRADIENT_BOTTOM = '#1A0F08';
-// Matches --dark in src/styles/global.css (the footer/OG band color).
-const SITE_DARK = '#1D1B17';
 // iOS-style corner radius (~22.37% of the edge).
 const CORNER = 229;
 
@@ -44,20 +46,10 @@ ${defs}
 const roundedIcon = icon(CORNER);
 const squareIcon = icon(0);
 
-const ogCard = `<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-${defs}
-  <rect width="1200" height="630" fill="${SITE_DARK}"/>
-  <svg x="420" y="135" width="360" height="360" viewBox="0 0 1024 1024">
-    <rect width="1024" height="1024" rx="${CORNER}" fill="url(#bg)"/>
-    ${artGroup}
-  </svg>
-</svg>`;
-
 const out = (name) => new URL(`../public/${name}`, import.meta.url).pathname;
 
 await writeFile(out('favicon.svg'), roundedIcon);
 await sharp(Buffer.from(roundedIcon)).resize(96, 96).png().toFile(out('favicon-96.png'));
 await sharp(Buffer.from(squareIcon)).resize(180, 180).png().toFile(out('apple-touch-icon.png'));
-await sharp(Buffer.from(ogCard)).png().toFile(out('og-default.png'));
 
-console.log('Wrote favicon.svg, favicon-96.png, apple-touch-icon.png, og-default.png');
+console.log('Wrote favicon.svg, favicon-96.png, apple-touch-icon.png');

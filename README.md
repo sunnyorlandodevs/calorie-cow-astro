@@ -32,9 +32,9 @@ public/
   favicon.svg        real app icon (generated — don't hand-edit)
   favicon-96.png     PNG favicon fallback (generated)
   apple-touch-icon.png  180px home-screen icon (generated)
-  og-default.png     social-preview card (generated)
+  og-cover.png       1200×630 social-share card (hand-made art, NOT generated)
 src/
-  config.ts          site name, description, email, APP_STORE_URL, PRO (price seam)
+  config.ts          site name, description, email, APP_STORE_URL, PRO, UMAMI
   styles/global.css  design tokens mirrored from the app's palette
   components/        Wordmark, Nav, Footer, PhoneShot
   layouts/           BaseLayout (head/meta + Nav + Footer)

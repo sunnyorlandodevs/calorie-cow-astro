@@ -10,7 +10,7 @@ export const SITE = {
   name: 'Calorie Cownter',
   url: 'https://caloriecownter.com',
   description:
-    'A warm, private calorie and macro tracker for iPhone and iPad. Type a meal, scan a barcode, or snap a photo and let AI do the math — no account, no ads, and your food diary stays in your own iCloud.',
+    'A warm, private calorie and macro tracker for iPhone and iPad. Type a meal, scan a barcode, or snap a photo and let AI do the math. No account, no ads, and your food diary stays in your own iCloud.',
   email: 'marco@sunnyorlando.dev',
 };
 

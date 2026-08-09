@@ -130,10 +130,17 @@ set in the Pages settings (`public/CNAME` + `site:` in `astro.config.mjs` are
 already in place). See the README's "NOTES — manual steps before launch" for
 what's left (DNS/custom domain, App Store URL, legal dates).
 
-The icon assets in `public/` (favicon.svg, favicon-96.png, apple-touch-icon.png,
-og-default.png) are **generated** from the app-icon source art in
-`AppIcon.icon/` by `node scripts/generate-icons.mjs` — regenerate, don't
-hand-edit.
+The icon assets in `public/` (favicon.svg, favicon-96.png, apple-touch-icon.png)
+are **generated** from the app-icon source art in `AppIcon.icon/` by
+`node scripts/generate-icons.mjs` — regenerate, don't hand-edit.
+
+`public/og-cover.png` is the exception: it's the 1200×630 social-share card,
+hand-made art (the cow next to a real screenshot) that Marco supplied, and the
+script deliberately no longer builds one. Replace it by dropping in a new file.
+If you change it, give it a **new filename** and update `BaseLayout.astro` —
+Facebook, LinkedIn and Slack cache previews by image URL, so reusing the name
+means the old picture keeps showing up. Keep it 1200×630 to match the
+`og:image:width`/`height` tags.
 
 ## Writing voice
 
