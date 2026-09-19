@@ -8,9 +8,8 @@ import { SITE } from '../config';
     <div class="container prose">
       <h1 class="section-title" style="margin-bottom: 8px;">Privacy Policy</h1>
 
-      <!-- TODO(launch): set the real date once legal review is complete. -->
-      <p class="draft-note">
-        Draft — pending legal review. Last updated <strong>[DATE PLACEHOLDER]</strong>.
+      <p class="updated-note">
+        Last updated <strong>September 19, 2026</strong>.
       </p>
 
       <p>
@@ -22,25 +21,28 @@ import { SITE } from '../config';
 
       <h2>The short version</h2>
       <ul>
-        <li>You can use most of the app with <strong>no account at all</strong>.</li>
+        <li>There is <strong>no account and no sign-in</strong> — not even for the AI features.</li>
         <li>Your food diary lives in <strong>your own iCloud</strong>, not on our servers.</li>
         <li>Your <strong>Apple Health data never leaves your phone</strong>.</li>
         <li>AI meal photos are analyzed and then <strong>not stored</strong>.</li>
         <li>There are <strong>no ads</strong>, and <strong>no analytics or tracking in the app</strong>.</li>
       </ul>
 
-      <h2>Accounts (optional)</h2>
+      <h2>No account, no sign-in</h2>
       <p>
-        You don't need an account to log food, scan barcodes, or connect Apple
-        Health. An account is only required to use the AI meal-scanning feature.
+        There is no sign-up, no sign-in, and no password anywhere in Calorie
+        Cownter. You never give us an email address or a name, and we never ask
+        for one. Open the app and start logging.
       </p>
       <p>
-        If you choose to use AI, you sign in with <strong>Sign in with Apple</strong> —
-        there is no password. When you do, our backend stores the stable Apple
-        user identifier Apple gives us (so we can recognize you and enforce the
-        free daily limit). If Apple provides them on your first sign-in, we also
-        store your email address (which may be an Apple private-relay address you
-        can revoke at any time) and your name. That's it.
+        The AI features do need a way to tell one device apart from another, so
+        we can count the free daily scans and know whether a subscription is
+        active. Your device uses Apple's <strong>StoreKit</strong> to produce an
+        anonymous identifier for this app (Apple calls it the app transaction
+        ID), and our backend verifies it with Apple and stores it. That
+        identifier is specific to this app — it isn't your Apple Account, it
+        doesn't tell us who you are, and it can't be used to look you up
+        anywhere else. It's the only thing we store about you.
       </p>
 
       <h2>AI meal scanning</h2>
@@ -65,11 +67,12 @@ import { SITE } from '../config';
 
       <h2>Subscriptions</h2>
       <p>
-        Any subscription (for example, unlimited AI scans, coming soon) is handled
-        entirely by <strong>Apple / StoreKit</strong> through RevenueCat. Our
-        backend receives subscription status events keyed to your Apple identifier
-        so we know whether your subscription is active. <strong>No payment or card
-        details ever reach us.</strong>
+        Calorie Cow Pro, the optional subscription for unlimited AI scans, is sold
+        and managed entirely by <strong>Apple / StoreKit</strong> through
+        RevenueCat. Our backend receives subscription status events keyed to the
+        same anonymous app transaction ID described above, so we know whether a
+        subscription is active. <strong>No payment or card details ever reach
+        us.</strong>
       </p>
 
       <h2>Usage logging</h2>
