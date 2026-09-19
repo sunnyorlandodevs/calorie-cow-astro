@@ -166,12 +166,8 @@ a { color: inherit; }
 .prose strong { font-weight: 700; color: var(--ink); }
 
 /* Draft banner on legal pages */
-.draft-note {
-  background: var(--ai-soft);
-  border: 1px solid var(--ai);
-  color: var(--ink);
-  border-radius: 12px;
-  padding: 14px 18px;
+.updated-note {
+  color: var(--muted);
   font-size: 14px;
   font-family: var(--font-mono);
   margin-bottom: 32px;
