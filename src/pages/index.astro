@@ -24,15 +24,15 @@ const showWaitlist = !isLive && WAITLIST_URL != null;
 // Pro is described without a number until the App Store product is final —
 // PRO.price stays null so the site can never contradict Apple's price.
 const proLine = PRO.price
-  ? `${PRO.name} unlocks unlimited scans for ${PRO.price}, with a ${PRO.trialDays}-day free trial.`
-  : `${PRO.name} unlocks unlimited scans.`;
+  ? `${PRO.name} raises your daily AI limits for ${PRO.price}.`
+  : `${PRO.name} raises your daily AI limits.`;
 
 // FAQ content — mirrors the verified data flows (photos discarded, iCloud-only
 // diary, 3 free AI scans, no account or sign-in anywhere).
 const faqs = [
   {
     q: 'Is it free?',
-    a: `Mostly, yes. Logging, barcode scanning, widgets, and Apple Health are all free, with no ads. AI photo scans are free ${PRO.freeScansPerDay} times a day. ${proLine}. As AI continous to develop, the costs to operate will decrease, and we may adjust the Pro plan accordingly to save you money.`,
+    a: `Mostly, yes. Logging, barcode scanning, widgets, and Apple Health are all free, with no ads. AI logging — photo scans and typed descriptions — is free ${PRO.freeScansPerDay} times a day. ${proLine}. As AI continous to develop, the costs to operate will decrease, and we may adjust the Pro plan accordingly to save you money.`,
   },
   {
     q: 'Do I need an account?',

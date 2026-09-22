@@ -26,7 +26,7 @@ export const APP_STORE_URL: string | null = null;
 // the waitlist without waiting for launch.
 export const WAITLIST_URL: string | null = 'https://forms.gle/4v8sgMYHDQ2J4smc7';
 
-// Calorie Cownter Pro — the optional subscription for unlimited AI photo scans.
+// Calorie Cownter Pro — the optional subscription for higher daily AI limits.
 // Everything else in the app is free. `price` stays null until the App Store
 // Connect product is final; while it is null the site describes Pro without
 // quoting a number, so we can never show a price that disagrees with Apple's.
