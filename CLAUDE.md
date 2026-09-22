@@ -68,7 +68,7 @@ directives that must be translated to Astro + native HTML by hand.
   which renders a non-clickable "Coming soon" badge in both the hero and the
   footer (plus a "Launching soon on iOS" note). Setting it to the real URL turns
   both into working links — a one-line swap.
-- **Subscription seam.** Calorie Cow Pro (unlimited AI photo scans) ships with
+- **Subscription seam.** Calorie Cownter Pro (unlimited AI photo scans) ships with
   the 1.0 App Store release, so the site describes it as a real product rather
   than "coming soon". But `PRO.price` in `config.ts` stays `null` until the App
   Store Connect product is final — while null, copy describes Pro without

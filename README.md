@@ -118,5 +118,5 @@ domain automatically once that's configured. Remaining steps for Marco:
 | What | Where | Notes |
 |---|---|---|
 | App Store URL | `src/config.ts` → `APP_STORE_URL` | Currently `null` → "Coming soon" badge (hero + footer) and a "Launching soon on iOS" note. |
-| Pro price | `src/config.ts` → `PRO.price` | `null` → the site describes Calorie Cow Pro without quoting a number. Set it (e.g. `'$4.99/month'`) once the App Store product is final and the trial line appears too. |
+| Pro price | `src/config.ts` → `PRO.price` | `null` → the site describes Calorie Cownter Pro without quoting a number. It's deliberately left unset even though the App Store price ($2.99/month, no trial) is already final — there's no trial line to add. |
 | Legal dates / jurisdiction | `src/pages/{privacy,terms}.astro` | `[DATE PLACEHOLDER]`, `[JURISDICTION PLACEHOLDER]`. |

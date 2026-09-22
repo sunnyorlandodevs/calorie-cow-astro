@@ -26,7 +26,7 @@ export const APP_STORE_URL: string | null = null;
 // the waitlist without waiting for launch.
 export const WAITLIST_URL: string | null = 'https://forms.gle/4v8sgMYHDQ2J4smc7';
 
-// Calorie Cow Pro — the optional subscription for unlimited AI photo scans.
+// Calorie Cownter Pro — the optional subscription for unlimited AI photo scans.
 // Everything else in the app is free. `price` stays null until the App Store
 // Connect product is final; while it is null the site describes Pro without
 // quoting a number, so we can never show a price that disagrees with Apple's.
@@ -45,8 +45,10 @@ export const UMAMI: { src: string; websiteId: string; domains: string } | null =
 };
 
 export const PRO = {
-  name: 'Calorie Cow Pro',
+  name: 'Calorie Cownter Pro',
   freeScansPerDay: 3,
-  price: null as string | null, // e.g. '$4.99/month'
-  trialDays: 7,
+  price: null as string | null, // e.g. '$2.99/month'
+  // There is NO introductory offer on the App Store product. Don't surface a
+  // trial line anywhere until one actually exists in App Store Connect.
+  trialDays: 0,
 };
