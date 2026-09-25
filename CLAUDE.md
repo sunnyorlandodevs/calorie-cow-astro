@@ -64,10 +64,10 @@ directives that must be translated to Astro + native HTML by hand.
 - **FAQ is CSS-only.** The accordion uses native `<details name="faq">` (one
   open at a time, first item `open`) with a `[open]` icon swap. No JavaScript —
   keep it that way.
-- **App Store seam.** `APP_STORE_URL` in `config.ts` is `null` until launch,
-  which renders a non-clickable "Coming soon" badge in both the hero and the
-  footer (plus a "Launching soon on iOS" note). Setting it to the real URL turns
-  both into working links — a one-line swap.
+- **App Store seam.** `APP_STORE_URL` in `config.ts` holds the live App Store
+  listing, so the hero + footer badges are real links, the nav CTA says "Get
+  the app", and the waitlist (button, hero note, "When can I get it?" FAQ) is
+  hidden. Setting it back to `null` restores the pre-launch "Coming soon" state.
 - **Subscription seam.** Calorie Cownter Pro (unlimited AI photo scans) ships with
   the 1.0 App Store release, so the site describes it as a real product rather
   than "coming soon". But `PRO.price` in `config.ts` stays `null` until the App

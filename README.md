@@ -105,9 +105,8 @@ domain automatically once that's configured. Remaining steps for Marco:
 1. **Custom domain + DNS**: add `caloriecownter.com` as the custom domain in the
    Pages settings (the `public/CNAME` file is already in place), then point DNS
    at GitHub Pages (A/AAAA records for the apex, or a CNAME for `www`).
-2. **Swap in the real App Store URL**: set `APP_STORE_URL` in `src/config.ts`.
-   The hero badge automatically turns into a working link; until then it shows a
-   non-clickable "Coming soon" badge.
+2. ~~**Swap in the real App Store URL**~~ — done, `APP_STORE_URL` in
+   `src/config.ts` points at the live listing.
 3. **Replace the remaining stubs** (see below).
 4. **Legal review + dates**: fill the `[DATE PLACEHOLDER]` on `/privacy` and
    `/terms`, and the `[JURISDICTION PLACEHOLDER]` in `/terms`. Both pages carry a
@@ -117,6 +116,6 @@ domain automatically once that's configured. Remaining steps for Marco:
 
 | What | Where | Notes |
 |---|---|---|
-| App Store URL | `src/config.ts` → `APP_STORE_URL` | Currently `null` → "Coming soon" badge (hero + footer) and a "Launching soon on iOS" note. |
+| App Store URL | `src/config.ts` → `APP_STORE_URL` | Set to the live listing (`id6793140592`). Setting it to `null` brings back the "Coming soon" badges and the waitlist. |
 | Pro price | `src/config.ts` → `PRO.price` | `null` → the site describes Calorie Cownter Pro without quoting a number. It's deliberately left unset even though the App Store price ($2.99/month, no trial) is already final — there's no trial line to add. |
 | Legal dates / jurisdiction | `src/pages/{privacy,terms}.astro` | `[DATE PLACEHOLDER]`, `[JURISDICTION PLACEHOLDER]`. |

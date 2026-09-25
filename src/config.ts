@@ -14,10 +14,10 @@ export const SITE = {
   email: 'marco@sunnyorlando.dev',
 };
 
-// TODO(launch): drop the real App Store URL here once the app is live. The
-// hero + footer badges read this — a real link is a one-line swap. Leaving it
-// null keeps both badges non-clickable ("Coming soon") on purpose.
-export const APP_STORE_URL: string | null = null;
+// The live App Store listing. The hero + footer badges and the nav CTA read
+// this; setting it back to null restores the pre-launch "Coming soon" badges.
+export const APP_STORE_URL: string | null =
+  'https://apps.apple.com/us/app/calorie-cownter-food-log/id6793140592';
 
 // The waitlist is the site's only real call to action until the app ships, so
 // it is the primary button in the hero and footer while APP_STORE_URL is null.
